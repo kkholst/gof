@@ -1,0 +1,2 @@
+# gof
+Cumulative residuals
