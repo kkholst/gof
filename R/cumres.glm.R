@@ -91,10 +91,10 @@ function(model,...) UseMethod("cumres")
                ## success,failure -> refit
                y <- model.extract(model.frame(model),"response")               
                X <- model.matrix(model)
-               y0 <- unlist(apply(M[,1:2],1,function(x) rep(c(1,0),as.vector(x))))
-               X0 <- as.matrix(M[rep(seq(nrow(M)),rowSums(M[,1:2])),-(1:2),drop=FALSE])
+               y0 <- unlist(apply(y[,1:2],1,function(x) rep(c(1,0),as.vector(x))))
+               X0 <- as.matrix(X[rep(seq(nrow(y)),rowSums(y[,1:2])),,drop=FALSE])
                cl <- model$call
-               cl$formula <- y0 ~ X0
+               cl$formula <- y0 ~ -1+X0
                cl$data <- NULL
                model <- eval(cl)
            }       
