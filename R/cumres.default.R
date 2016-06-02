@@ -1,7 +1,7 @@
 ##' @S3method cumres default
 `cumres.default` <-
-  function(model,score,information,
-           residualfun,variable,
+  function(model,variable,score,information,
+           residualfun,
            data=model.frame(model),par=coef(model),
            R=1000, b=0, plots=min(R,50), seed=round(runif(1,1,1e9)),
            debug=FALSE, ...) {

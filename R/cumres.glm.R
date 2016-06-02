@@ -1,7 +1,3 @@
-##' @export
-`cumres` <-
-function(model,...) UseMethod("cumres")
-
 ##' @S3method cumres lm
 `cumres.lm` <- function(model,...) {
   cumres.glm(model,...)
