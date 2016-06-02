@@ -45,11 +45,15 @@ cumres.ordreg <- function(model,variable,R=100,plot=FALSE,aggregate=sum,...) {
         eta0 <- eta[tail(idx0,1),,drop=FALSE]%x%cbind(rep(1,length(idx0)))
         Eta[idx0,] <- eta0
     }
-    IID <- iid(model)[xord,,drop=FALSE]
+    IID <- lava::iid(model)[xord,,drop=FALSE]
     
     ##agr <- function(x) sum(x) ## Functional to combine processes 
-    Wagr <- apply(W,1,aggregate)
-    What <- matrix(ncol=R,nrow=nrow(W))
+    Wagr <- t(rbind(apply(W,1,aggregate)))    
+    What0 <- matrix(ncol=R,nrow=nrow(W))
+    What <- c()
+    for (i in seq_len(ncol(Wagr))) {
+        What <- c(What,list(What0))
+    }
     if (plot) {
         ylim <- range(Wagr)
         ylim <- ylim + c(-1,1)*diff(ylim)*0.4
@@ -58,9 +62,10 @@ cumres.ordreg <- function(model,variable,R=100,plot=FALSE,aggregate=sum,...) {
         ## legend("topright",legend=paste("Category",seq(nc-1)),lty=seq(n-1))     
         ## for (i in 1:ncol(W)) lines(x,W[,i],lty=i,type="s")
     }
+    
     KS <- c()
-    KSagr<- c()
-
+    KSagr <- c()
+    for (k in seq_len(ncol(Wagr))) KSagr <- c(KSagr,list(NULL))
     for (j in seq(R)) {
         G <- rnorm(n)
         Res_ <- apply(Res,2,function(x) x*G)
@@ -76,32 +81,36 @@ cumres.ordreg <- function(model,variable,R=100,plot=FALSE,aggregate=sum,...) {
             W_[idx0,] <- colSums(ir_+ IID_%*%t(Eta_))
         }
         W_ <- W_/sqrt(n)
-        KS <- rbind(KS,apply(abs(W_),2,max))
-        W_agr <- apply(W_,1,aggregate)
-        What[,j] <- W_agr
-        KSagr <- c(KSagr,max(abs(W_agr)))
+        W_agr <- t(rbind(apply(W_,1,aggregate)))
+        for (k in seq_len(ncol(W_agr))) {
+            What[[k]][,j] <- W_agr[,k]
+            KSagr[[k]] <- c(KSagr[[k]],max(abs(W_agr[,k])))
+        }
         if (plot && j<50) {
             ## for (k in 1:ncol(W_)) 
             ##     lines(x,W_[,k],col="orange",type="s",lty=k)
             lines(x,W_agr,col=Col("orange",0.25),type="s")
         }
     }
+    
     if (plot) {
         lines(x,Wagr,type="s",lwd=2)
     }
-    KS0 <- apply(abs(W),2,max)
-    KSagr0 <- max(abs(Wagr))
-    pvalKS  <- c()
-    for (i in seq_along(KS0)) {
-        pvalKS <- c(pvalKS,mean(KS[,i]>KS0[i]))
+    xx <- KSagr0 <- c()
+    for (k in seq_len(ncol(Wagr))) {
+        KSagr0 <- c(KSagr0,max(abs(Wagr[,k])))
+        xx <- cbind(xx,x)
     }
-    pvalKSagr <- mean(KSagr>KSagr0)
-    pvalKS
-    pvalKSagr
-    res <- list(W=cbind(Wagr),What=list(What),R=R,x=cbind(x),
-                KS=KSagr, CvM=NULL, n=length(x),
-                type="normal",
-                sd=NULL, cvalues=NULL, variable=variable,
+    varnames <- paste(variable,seq_len(ncol(Wagr)),sep=".")
+    type <- rep("normal",ncol(Wagr))
+    pvalKSagr <- c()
+    for (k in seq_len(ncol(Wagr))) {
+        pvalKSagr <- c(pvalKSagr,mean(KSagr[[k]]>KSagr0[k]))
+    }
+    res <- list(W=Wagr,What=What,R=R,x=xx,
+                KS=pvalKSagr, CvM=NULL, n=length(x),
+                type=type,
+                sd=NULL, cvalues=NULL, variable=varnames,
                 model="ordreg")
     class(res) <- "cumres"
     return(res)
