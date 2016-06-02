@@ -1,5 +1,5 @@
 ##' @export
-cumres.ordreg <- function(model,variable,R=100,plot=FALSE,agregate=sum,...) {
+cumres.ordreg <- function(model,variable,R=100,plot=FALSE,aggregate=sum,...) {
     env <- model$up
     n <- length(env$y)
     nc <- length(env$alpha)+1
@@ -11,13 +11,13 @@ cumres.ordreg <- function(model,variable,R=100,plot=FALSE,agregate=sum,...) {
     ## Actual classes (
     Y0 <- matrix(0,nrow=n,ncol=nc)
     Y0[cbind(seq(n),env$y)] <- 1
-    pr <- predict(e,type="prob")
+    pr <- predict(model,type="prob")
     r0 <- (Y0-pr)[,-nc,drop=FALSE]
     
     Res <- r ## For now we only use residuals defined from the cum.prob.
     if (missing(variable) || variable=="predicted") {
         variable <- "predicted"
-        x <- env$lp
+        x <- env$lp[,1]
     } else {
         x <- env$X[,variable]
     }
@@ -48,7 +48,7 @@ cumres.ordreg <- function(model,variable,R=100,plot=FALSE,agregate=sum,...) {
     IID <- iid(model)[xord,,drop=FALSE]
     
     ##agr <- function(x) sum(x) ## Functional to combine processes 
-    Wagr <- apply(W,1,agregate)
+    Wagr <- apply(W,1,aggregate)
     What <- matrix(ncol=R,nrow=nrow(W))
     if (plot) {
         ylim <- range(Wagr)
@@ -77,7 +77,7 @@ cumres.ordreg <- function(model,variable,R=100,plot=FALSE,agregate=sum,...) {
         }
         W_ <- W_/sqrt(n)
         KS <- rbind(KS,apply(abs(W_),2,max))
-        W_agr <- apply(W_,1,agregate)
+        W_agr <- apply(W_,1,aggregate)
         What[,j] <- W_agr
         KSagr <- c(KSagr,max(abs(W_agr)))
         if (plot && j<50) {
@@ -98,7 +98,6 @@ cumres.ordreg <- function(model,variable,R=100,plot=FALSE,agregate=sum,...) {
     pvalKSagr <- mean(KSagr>KSagr0)
     pvalKS
     pvalKSagr
-    browser()
     res <- list(W=cbind(Wagr),What=list(What),R=R,x=cbind(x),
                 KS=KSagr, CvM=NULL, n=length(x),
                 type="normal",

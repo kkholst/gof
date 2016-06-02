@@ -17,10 +17,12 @@ License: GPL
 LazyLoad: yes
 Collate:
     'confint.R'
+    'cumres.R'
     'cumres.coxph.R'
     'cumres.default.R'
     'cumres.glm.R'
     'cumres.lvmfit.R'
+    'cumres.ordreg.R'    
     'gof-package.R'
     'onload.R'
     'plot.R'
