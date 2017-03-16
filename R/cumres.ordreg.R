@@ -89,7 +89,7 @@ cumres.ordreg <- function(model,variable,R=100,plot=FALSE,aggregate=sum,...) {
         if (plot && j<50) {
             ## for (k in 1:ncol(W_)) 
             ##     lines(x,W_[,k],col="orange",type="s",lty=k)
-            lines(x,W_agr,col=Col("orange",0.25),type="s")
+            lines(x,W_agr,col=lava::Col("orange",0.25),type="s")
         }
     }
     
