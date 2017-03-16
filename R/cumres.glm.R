@@ -1,4 +1,4 @@
-##' @S3method cumres lm
+##' @export
 `cumres.lm` <- function(model,...) {
   cumres.glm(model,...)
 }
@@ -60,7 +60,6 @@
 ##' g2 <- cumres(l, c("y"), R=100, plots=50, b=0.5)
 ##' g2
 ##' 
-##' @method cumres glm
 `cumres.glm` <- function(model,
          variable=c("predicted",colnames(model.matrix(model))),
          data=data.frame(model.matrix(model)), 

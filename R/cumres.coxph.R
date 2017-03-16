@@ -28,12 +28,10 @@
 ##' @keywords models regression
 ##' @examples
 ##' 
-##' library(survival)
+##' require(survival)
 ##' 
 ##' simcox <- function(n=100, seed=1) {
-##'   if (!is.null(seed))
-##'     set.seed(seed)
-##'   require(survival)
+##'   if (!is.null(seed)) set.seed(seed)
 ##'   time<-rexp(n); cen<-2*rexp(n);
 ##'   status<-(time<cen);
 ##'   time[status==0]<-cen[status==0];
@@ -56,7 +54,6 @@
          type=c("score","residual"),
          R=1000, plots=min(R,50), seed=round(runif(1,1,1e9)), ...) {
 
-  require(survival)
   mt <- model.frame(model)
   Y <- model.extract(mt, "response")
   if (!inherits(Y, "Surv")) 

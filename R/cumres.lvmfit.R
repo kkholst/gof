@@ -1,5 +1,4 @@
 cumresMaxSet <- function(m,var,...) {
-  if (!require("lava")) stop("package 'lava' not available")
   A <- t(lava::index(m)$A)
   Afix <- A; Afix[t(lava::index(m)$M0)==1] <- 0
   A[A!=0] <- 1
@@ -76,8 +75,7 @@ cumres.lvmfit <- function(model,y,x,full=FALSE,
                           data=model.frame(model),p,
                           R=1000, b=0, plots=min(R,50), seed=round(runif(1,1,1e9)),
                           ...) {
-  if (!require("lava")) stop("package 'lava' not available")
-  if (!require("numDeriv")) stop("package 'numDeriv' not available")    
+  if (!requireNamespace("numDeriv")) stop("package 'numDeriv' not available")    
 
   cl <- match.call()
   

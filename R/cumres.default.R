@@ -1,4 +1,4 @@
-##' @S3method cumres default
+##' @export
 `cumres.default` <-
   function(model,variable,score,information,
            residualfun,
@@ -14,7 +14,7 @@
     r <- residualfun(model)
     grad <- attributes(r)$grad    
     if (is.null(grad)) {
-      if (!require("numDeriv")) stop("Supply gradient")
+      if (!requireNamespace("numDeriv")) stop("Supply gradient")
       grad <- numDeriv::jacobian(residualfun,par,...)
     }
     r <- r[ord]; grad <- grad[ord,,drop=FALSE]

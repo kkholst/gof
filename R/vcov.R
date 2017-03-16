@@ -1,2 +1,2 @@
-##' @S3method vcov cumres
+##' @export
 vcov.cumres <- function(object,...) object$vcov
