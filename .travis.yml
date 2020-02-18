@@ -16,23 +16,23 @@ addons:
    apt:
      packages:
        - r-cran-devtools
-       - r-cran-rcpp
-       - r-cran-rcpparmadillo
+       - r-cran-mets
+       - r-cran-testthat
+       - r-cran-futile.logger
+       - r-cran-covr
 
-r_binary_packages:
- - numDeriv
- - lava
- - testthat
- - futile.logger
- - mets
- - covr
-
+# r_binary_packages:
+#  - numDeriv
+#  - lava
+#  - testthat
+#  - futile.logger
+#  - mets
+#  - covr
 #r_github_packages:
 # - jimhester/covr
 # - mangothecat/visualTest
 
 install:
-- R -e 'devtools::install_deps(dep = T)'
 
 script:
 - make rcheck
