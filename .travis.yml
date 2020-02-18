@@ -13,6 +13,7 @@ cache: packages
 # - tlmgr install fancyvrb units nag capt-of zlmtt environ
 
 r_binary_packages:
+ - devtools
  - numDeriv
  - lava
  - Rcpp
