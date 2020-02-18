@@ -18,6 +18,7 @@ PIP = /usr/bin/env pip3
 R = /usr/bin/env R --no-save --no-restore
 GIT = /usr/bin/env git
 CMAKE = /usr/bin/env cmake
+GETVER = examples/getversion.py
 R_DEP = 1
 TEST = test
 BUILD=debug
@@ -93,9 +94,7 @@ exportr:
 	cd $(BUILD_DIR)/R; $(R) CMD build $(TARGET) --compact-vignettes=gs+qpdf --resave-data=best
 
 checkr: exportr
-	cd $(BUILD_DIR)/R; $(R) CMD check $(TARGET) --timings --as-cran --no-multiarch --run-donttest
-#	cd $(BUILD_DIR)/R; 	$(RCMD) check $(pkg) --use-valgrind --timings --as-cran --no-multiarch --configure-args="CXXFLAGS=-O0 -g" --library=$(libpath)
-#--library=$(libpath)
+	cd $(BUILD_DIR)/R; $(R) CMD check `../../$(GETVER) $(TARGET)` --timings --as-cran --no-multiarch --run-donttest
 
 r: buildr runr
 
