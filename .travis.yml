@@ -3,14 +3,31 @@ r:
  - release
  - devel
 sudo: false
-r_check_args: --as-cran --run-donttest
 warnings_are_errors: true
 cache: packages
+
+#r_build_args: --no-manual --no-resave-data
+#r_check_args: --as-cran --run-donttest --no-build-vignettes --no-manual
+#
+#before_install:
+# - tlmgr install fancyvrb units nag capt-of zlmtt environ
+
+r_binary_packages:
+ - numDeriv
+ - lava
+ - Rcpp
+ - RcppArmadillo
+ - testthat
+ - futile.logger
+ - mets
+ - covr
 
 #r_github_packages:
 # - jimhester/covr
 # - mangothecat/visualTest
 
-# after_success:
-#   - Rscript -e 'library("covr"); codecov(type="test")'
+script:
+- make rcheck
 
+after_success:
+  - Rscript -e 'library("covr"); codecov(type="test")'

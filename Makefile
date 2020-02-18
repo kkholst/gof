@@ -93,8 +93,8 @@ exportr:
 	cd $(BUILD_DIR)/R; $(R) CMD build $(TARGET) --compact-vignettes=gs+qpdf --resave-data=best
 
 checkr: exportr
-#	cd $(BUILD_DIR)/R; 	$(RCMD) check $(pkg) --use-valgrind --timings --as-cran --no-multiarch --configure-args="CXXFLAGS=-O0 -g" --library=$(libpath)
 	cd $(BUILD_DIR)/R; $(R) CMD check $(TARGET) --timings --as-cran --no-multiarch --run-donttest
+#	cd $(BUILD_DIR)/R; 	$(RCMD) check $(pkg) --use-valgrind --timings --as-cran --no-multiarch --configure-args="CXXFLAGS=-O0 -g" --library=$(libpath)
 #--library=$(libpath)
 
 r: buildr runr

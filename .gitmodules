@@ -10,3 +10,6 @@
 [submodule "lib/armadillo"]
 	path = lib/armadillo
 	url = https://gitlab.com/conradsnicta/armadillo-code.git
+[submodule "lib/unittest-cpp"]
+	path = lib/unittest-cpp
+	url = https://github.com/unittest-cpp/unittest-cpp
