@@ -5,8 +5,8 @@
 \title{Cumulative residual processes for structural equation models}
 \usage{
 \method{cumres}{lvmfit}(model, y, x, full = FALSE,
-  data = model.frame(model), p, R = 1000, b = 0, plots = min(R, 50),
-  seed = round(runif(1, 1, 1e+09)), ...)
+  data = model.frame(model), p, R = 1000, b = 0, plots = min(R,
+  50), seed = round(runif(1, 1, 1e+09)), ...)
 }
 \arguments{
 \item{model}{\code{lvm} object}

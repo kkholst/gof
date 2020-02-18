@@ -5,9 +5,10 @@
 \title{Calculates GoF measures for Cox's propoportional hazard model for right
 censored survival times}
 \usage{
-\method{cumres}{coxph}(model, variable = c(colnames(model.matrix(model))),
-  type = c("score", "residual"), R = 1000, plots = min(R, 50),
-  seed = round(runif(1, 1, 1e+09)), ...)
+\method{cumres}{coxph}(model,
+  variable = c(colnames(model.matrix(model))), type = c("score",
+  "residual"), R = 1000, plots = min(R, 50), seed = round(runif(1, 1,
+  1e+09)), ...)
 }
 \arguments{
 \item{model}{Model object (\code{lm} or \code{glm})}

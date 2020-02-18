@@ -1,8 +1,8 @@
 ##' Model-diagnostics based on cumulative residuals
 ##' 
-##' @name gof-package
+##' @name gofobs-package
 ##' @import utils stats
-##' @aliases gof-package gof
+##' @aliases gofobs-package gofobs
 ##' @docType package
 ##' @author Klaus K. Holst <kkho@@biostat.ku.dk>
 ##' @seealso \code{\link[timereg]{cox.aalen}} in the \code{timereg}-package for
@@ -13,7 +13,7 @@
 ##' John Q. Su and L.J. Wei (1991) \emph{A lack-of-fit test for the mean function
 ##' in a generalized linear model}. Journal. Amer. Statist. Assoc., Volume 86,
 ##' Number 414, pp 420-426.
-##' @useDynLib gof
+##' @useDynLib gofobs
 ##' @importFrom survival Surv coxph
 ##' @importFrom lava iid vars
 ##' @importFrom graphics lines polygon

@@ -182,7 +182,7 @@ cumres.lvmfit <- function(model,y,x,full=FALSE,
                  cvalues=as.double(numeric(R)), ## Return: value for each realization s.t.  +/- cvalue * Wsd contains W*
                  Ws=as.double(numeric(plots*n)), ## Return: Saved realizations (for plotting function)
                  Wobs=as.double(numeric(n)) ## Observed process
-                 , PACKAGE="gof")
+                 , PACKAGE="gofobs")
     return(list(output=output,x=x[ord]))
   }
   
