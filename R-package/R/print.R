@@ -1,5 +1,19 @@
 ##' @export
 print.cumres <- function(x,...) {
+    cat("\n")
+    print(coef(x), ...)
+    cat("\nR =",x$R,"\n")
+    invisible(x)
+}
+
+##' @export
+summary.cumres <- function(object,...) {
+    res <- with(object, list(KS=KS, CvM=CvM, R=R, n=n, type=type, model=model, variable=variable))
+    return(structure(res, class="summary.cumres"))
+}
+
+##' @export
+print.summary.cumres <- function(x,...) {
     cat("\n");
     for (i in 1:length(x$variable)) {
         if (!is.null(x$KS)) cat("Kolmogorov-Smirnov-test: p-value=", x$KS[i], "\n", sep="")
@@ -10,5 +24,4 @@ print.cumres <- function(x,...) {
     invisible(x)
 }
 
-##' @export
-summary.cumres <- function(object,...) print(object,...)
+

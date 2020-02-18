@@ -12,12 +12,17 @@ cache: packages
 #before_install:
 # - tlmgr install fancyvrb units nag capt-of zlmtt environ
 
+addons:
+   apt:
+     packages:
+       - r-cran-devtools
+       - r-cran-rcpp
+       - r-cran-rcpparmadillo
+       - devtools
+
 r_binary_packages:
- - devtools
  - numDeriv
  - lava
- - Rcpp
- - RcppArmadillo
  - testthat
  - futile.logger
  - mets
