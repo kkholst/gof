@@ -26,6 +26,9 @@ r_binary_packages:
 # - jimhester/covr
 # - mangothecat/visualTest
 
+install:
+- R -e 'devtools::install_deps(dep = T)'
+
 script:
 - make rcheck
 
