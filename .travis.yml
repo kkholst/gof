@@ -33,9 +33,10 @@ addons:
 # - mangothecat/visualTest
 
 install:
-
+  - echo
+    
 script:
-- make rcheck
+  - make rcheck
 
 after_success:
   - Rscript -e 'library("covr"); codecov(type="test")'
