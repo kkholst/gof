@@ -89,7 +89,8 @@ exportr:
 	@rm -Rf $(BUILD_DIR)/R/$(TARGET)
 	@mkdir -p $(BUILD_DIR)/R/$(TARGET)
 	cd R-package; $(GIT) archive HEAD | (cd ../$(BUILD_DIR)/R/$(TARGET); tar x)
-	cp src/*.?pp $(BUILD_DIR)/R/$(TARGET)/src
+	cp src/*.cpp $(BUILD_DIR)/R/$(TARGET)/src
+	cp src/*.hpp $(BUILD_DIR)/R/$(TARGET)/inst/include
 	sed -i '/^OBJECTS\|SOURCES/d' $(BUILD_DIR)/R/$(TARGET)/src/Makevars
 	cd $(BUILD_DIR)/R; $(R) CMD build $(TARGET) --compact-vignettes=gs+qpdf --resave-data=best
 

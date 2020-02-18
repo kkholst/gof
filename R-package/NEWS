@@ -1,7 +1,7 @@
 # -*- mode: org -*-
 
 * Version 1.0 <2020-02-17 Mon>
- - Faster implementation in Rcpp with improved algorithms
+ - Faster implementation in RcppArmadillo with improved algorithms
  - Method for proportional hazard model (coxph) removed from this
    version (methods are available in the timereg package)
 
