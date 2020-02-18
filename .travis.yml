@@ -18,7 +18,6 @@ addons:
        - r-cran-devtools
        - r-cran-rcpp
        - r-cran-rcpparmadillo
-       - devtools
 
 r_binary_packages:
  - numDeriv
