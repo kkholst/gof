@@ -7,13 +7,13 @@ Author: Klaus K. Holst
 Maintainer: Klaus. K. Holst <klaus@holst.it>
 Description: Implementation of model-checking techniques for generalized linear
     models and linear structural equation models based on cumulative residuals
-    (Lin et al. (2002) <doi:10.1111/j.0006-341x.2002.00001.x>).
+    (Lin, Wei & Ying (2002) <doi:10.1111/j.0006-341x.2002.00001.x>).
 Depends:
     R (>= 3.3),
     lava (>= 1.6.3)
 Imports:
-    mets (>= 1.0.0),
     methods,
+    mets (>= 1.0.0),    
     Rcpp (>= 1.0.0),
 Suggests:
     futile.logger,
