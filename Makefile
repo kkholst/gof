@@ -18,7 +18,7 @@ PIP = /usr/bin/env pip3
 R = /usr/bin/env R --no-save --no-restore
 GIT = /usr/bin/env git
 CMAKE = /usr/bin/env cmake
-GETVER = examples/getversion.py
+GETVER = misc/getversion.py
 R_DEP = 1
 TEST = test
 BUILD=debug
@@ -71,7 +71,7 @@ uninstall:
 .PHONY: r cleanr buildr runr testr roxygen
 
 buildr: cleanr
-	@$(R) --slave -e "source('examples/utilities.R'); \
+	@$(R) --slave -e "source('misc/utilities.R'); \
 	load_packages(c('Rcpp', 'RcppArmadillo', 'lava', 'optimx', 'futile.logger'))"
 	@$(R) --slave -e "Rcpp::compileAttributes('R-package')"
 	@$(R) CMD INSTALL R-package
@@ -80,7 +80,7 @@ testr:
 	@$(R) -e 'testthat::test_package("R-package")'
 
 runr:
-	@cd examples; $(R) --silent -f $(TEST).R
+	@cd misc; $(R) --silent -f $(TEST).R
 
 roxygen:
 	@$(R) -e 'roxygen2::roxygenize("R-package")'
@@ -115,7 +115,7 @@ testpy:
 	@cd python-package; $(MAKE) test
 
 runpy:
-	@$(PYTHON) examples/$(TEST).py
+	@$(PYTHON) misc/$(TEST).py
 
 py: buildpy runpy
 

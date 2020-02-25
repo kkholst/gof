@@ -79,14 +79,14 @@ namespace cumres {
   }
 
   // Comparison of ECDF of (x1,...,xn) with null CDF evaluated in G = (G(x1),...,G(xn))
-  double CramerVonMises(const arma::vec &x, const arma::vec &G) {
+  double CramerVonMises(const arma::vec &x, arma::vec G) {
     arma::uvec ord = arma::stable_sort_index(x); // back to original order of input data    
     G = G.elem(ord);
     unsigned n = G.n_elem;
     double res = 1/(12*n);
-    for (unsigned i=0; i<t.n_elem; i++) {
-      double val = (2*i-1)/(2*n)-G(i)
-      res += val*val
+    for (unsigned i=0; i<G.n_elem; i++) {
+      double val = (2*i-1)/(2*n)-G(i);
+	res += val*val;
     }
     return res;
   }

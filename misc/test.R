@@ -25,15 +25,15 @@ coef(gg)
 
 g <- new(gof::CumRes, r, -X, ii);
 g$reorder(predict(l))
-ks0 <- KolmogorovSmirnov(g$obs())
+ks0 <- SupTest(g$obs())
 mean(g$samplestat(1e4, seq(n)-1, FALSE)[,1]>ks0)
 
 g$reorder(x)
-ks0 <- KolmogorovSmirnov(g$obs())
+ks0 <- SupTest(g$obs())
 mean(g$samplestat(1e4, seq(n)-1, FALSE)[,1]>ks0)
 
 g$reorder(z)
-ks0 <- KolmogorovSmirnov(g$obs())
+ks0 <- SupTest(g$obs())
 mean(g$samplestat(1e4, seq(n)-1, FALSE)[,1]>ks0)
 
 g$rnorm()[1:10]

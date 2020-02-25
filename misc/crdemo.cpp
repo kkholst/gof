@@ -71,7 +71,7 @@ int main(int argc, char **argv) {
   arma::vec ks = proc.sample(100).col(0);
   std::cout << RED << trans(ks.subvec(0,10)) << std::endl << std::endl;
   vec obs = proc.obs();
-  double ks0 = cumres::KolmogorovSmirnov(obs);
+  double ks0 = cumres::SupTest(obs);
   uvec idx = arma::find(ks>ks0);
   double pval = idx.n_elem/(double)ks.n_elem;
   std::cout << BLUE << "p-value = " << pval << std::endl;

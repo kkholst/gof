@@ -1,3 +1,6 @@
+misc/*.csv
+misc/functional
+
 Rplots*
 .#*
 examples/functional

@@ -72,7 +72,7 @@ target_link_libraries(gof PRIVATE armadillo)
 # Executables
 ################################################################################
 
-add_executable("crdemo" "examples/crdemo.cpp")
+add_executable("crdemo" "misc/crdemo.cpp")
 target_link_libraries("crdemo" PRIVATE armadillo gof)
 
 ################################################################################
