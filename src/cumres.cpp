@@ -89,8 +89,8 @@ namespace cumres {
     arma::mat res(R,2);
     for (unsigned i=0; i<R; i++) {
       arma::vec wi = this->sample(idx);
-      res(i,0) = KolmogorovSmirnov(wi);
-      res(i,1) = CramerVonMises(wi, t0);
+      res(i,0) = SupTest(wi);
+      res(i,1) = L2Test(wi, t0);
       if (false) {
 	for (unsigned j=0; j<n; j++) {
 	  wi = abs(wi);

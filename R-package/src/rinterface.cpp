@@ -18,13 +18,13 @@
 #include <cmath>
 
 // [[Rcpp::export]]
-double KolmogorovSmirnov(const arma::vec &x) {
-  return cumres::KolmogorovSmirnov(x);
+double SupTest(const arma::vec &x) {
+  return cumres::SupTest(x);
 }
 
 // [[Rcpp::export]]
-double CramerVonMises(const arma::vec &x, const arma::vec &t) {
-  return cumres::CramerVonMises(x, t);
+double L2Test(const arma::vec &x, const arma::vec &t) {
+  return cumres::L2Test(x, t);
 }
 
 RCPP_MODULE(gofmod) {
@@ -40,7 +40,7 @@ RCPP_MODULE(gofmod) {
       .field( "qt", &cumres::cumres::qt )
 
       .method("samplestat", (arma::mat (cumres::cumres::*)(unsigned, arma::uvec, bool ) )( &cumres::cumres::sample),
-      	       "sample process and return KS and CvM statistic")
+      	       "sample process and return Sup and L2 statistic")
       .method("sample1", (arma::vec (cumres::cumres::*)(arma::uvec) )( &cumres::cumres::sample),
 	       "sample process")      
       .method("obs",    &cumres::cumres::obs,   "Return observed process")      

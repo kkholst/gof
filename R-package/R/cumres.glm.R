@@ -21,8 +21,8 @@ gof_samplestat <- function(cumres_obj, R=1e3, x=NULL, idx=seq_along(x)-1) {
     teststat <- cumres_obj$samplestat(R, idx, FALSE)
     W0 <- cumres_obj$obs()
     t0 <- cumres_obj$t
-    ks0 <- KolmogorovSmirnov(W0)
-    cvm0 <- CramerVonMises(W0,t0)
+    ks0 <- SupTest(W0)
+    cvm0 <- L2Test(W0,t0)
     return(list(pval.ks=mean(teststat[,1]>ks0), ks=ks0,
                 pval.cvm=mean(teststat[,2]>cvm0), cvm=cvm0,
                 t=t0, w=W0))
@@ -40,7 +40,7 @@ gof_samplestat <- function(cumres_obj, R=1e3, x=NULL, idx=seq_along(x)-1) {
 ##' \sum_{i=1}^k \beta_jX_{ij}} the \code{cumres}-function calculates the the
 ##' observed cumulative sum of residual process, cumulating the residuals,
 ##' \eqn{e_i}, by the jth covariate: \deqn{W_j(t) = n^{-1/2}\sum_{i=1}^n
-##' 1_{\{X_{ij}<t\}}e_i} and Kolmogorov-Smirnov and Cramer-von-Mises test
+##' 1_{\{X_{ij}<t\}}e_i} and Sup and L2 test
 ##' statistics are calculated via simulation from the asymptotic distribution of
 ##' the cumulative residual process under the null (Lin et al., 2002).
 ##' 

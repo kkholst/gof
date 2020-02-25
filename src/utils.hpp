@@ -33,8 +33,9 @@ namespace cumres {
   arma::mat expit(arma::mat x);
   arma::cx_mat expit(arma::cx_mat x);
   arma::vec softmax(arma::vec u);
-  double KolmogorovSmirnov(const arma::vec &x);
-  double CramerVonMises(const arma::vec &x, const arma::vec &t);
+  double SupTest(const arma::vec &D);
+  double L2Test(const arma::vec &D, const arma::vec &t);  
+  double CramerVonMises(const arma::vec &x, const arma::vec &G);
 
   extern arma::mat const EmptyMat;
   extern arma::vec const EmptyVec;  

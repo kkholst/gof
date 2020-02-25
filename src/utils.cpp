@@ -67,15 +67,28 @@ namespace cumres {
     return u - log(denom);
   }
 
-  double KolmogorovSmirnov(const arma::vec &x) {
-    return arma::max(arma::abs(x));
+  double SupTest(const arma::vec &D) {
+    return arma::max(arma::abs(D));
   };
 
-  double CramerVonMises(const arma::vec &x, const arma::vec &t) {
+  double L2Test(const arma::vec &D, const arma::vec &t) {
     arma::vec delta(t.n_elem);
     for (unsigned i=0; i<t.n_elem-1; i++) delta(i) = t[i+1]-t[i];
     delta(delta.n_elem-1) = 0;
-    return std::sqrt(sum(delta % x % x));
+    return std::sqrt(sum(delta % D % D));
+  }
+
+  // Comparison of ECDF of (x1,...,xn) with null CDF evaluated in G = (G(x1),...,G(xn))
+  double CramerVonMises(const arma::vec &x, const arma::vec &G) {
+    arma::uvec ord = arma::stable_sort_index(x); // back to original order of input data    
+    G = G.elem(ord);
+    unsigned n = G.n_elem;
+    double res = 1/(12*n);
+    for (unsigned i=0; i<t.n_elem; i++) {
+      double val = (2*i-1)/(2*n)-G(i)
+      res += val*val
+    }
+    return res;
   }
 
   arma::mat const EmptyMat = arma::mat();

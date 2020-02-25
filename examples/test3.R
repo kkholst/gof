@@ -42,8 +42,8 @@ fd <- function(beta) {
     return(r0)
 }
 fds <- function(beta)
-    #apply(pnorm(fd(beta)),2,cumsum)
-    apply(fd(beta),2,cumsum)
+    pnorm(fd(beta))/n
+#apply(fd(beta),2,cumsum)
 eta <- numDeriv::jacobian(fds,beta)
 r0 <- fd(beta)
 F <- seq(n)/n
@@ -55,11 +55,12 @@ sim <- function() {
     G <- rnorm(n)
     icG <- colSums(apply(ic, 2, function(x) x*G))
     for (i in seq(n)) {
-        W[i] <- (F-F0)[i]*G[i] + 1/n*icG%*%eta[i,]
+        W[i] <- (F-F0)[i] + icG%*%eta[i,]
     }
     max(abs(W))
 }
 Ks <- replicate(1e3, sim())
+head(Ks)
 mean(max(abs(D))>Ks)
 
 nortest::lillie.test(y)
