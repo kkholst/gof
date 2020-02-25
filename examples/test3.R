@@ -42,7 +42,8 @@ fd <- function(beta) {
     return(r0)
 }
 fds <- function(beta)
-    apply(pnorm(fd(beta)),2,cumsum)
+    #apply(pnorm(fd(beta)),2,cumsum)
+    apply(fd(beta),2,cumsum)
 eta <- numDeriv::jacobian(fds,beta)
 r0 <- fd(beta)
 F <- seq(n)/n
