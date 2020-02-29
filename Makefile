@@ -8,7 +8,6 @@ BUILD_DIR := build
 INSTALL_DIR := $(HOME)/local
 ARG =  -Db_coverage=true $(ASAN) -Dprefix=$(INSTALL_DIR)
 LINTER = cclint
-MESON = meson $(ARG)
 # ASAN =-Db_sanitize=address
 # CXX = clang++
 # CC = g++
@@ -32,14 +31,11 @@ all: clean run
 
 .PHONY: clean
 clean: cleanr cleanpy
-	@rm -Rf $(BUILD_DIR) $(VALGRIND_DIR) $(DOXYGEN_DIR)/html $(COVERAGE_DIR)	
+	@rm -Rf $(BUILD_DIR) $(VALGRIND_DIR) $(DOXYGEN_DIR)/html $(COVERAGE_DIR)
 
-.PHONY: init init-meson init-submodules
+.PHONY: init init-submodules
 init: clean
 	@$(CMAKE) -G Ninja -B build
-
-init-meson:
-	@$(MESON) $(BUILD_DIR) --buildtype=$(BUILD)
 
 init-submodules:
 	@if [ -z "`find \"lib/armadillo\" -mindepth 1 -exec echo notempty \; -quit`" ]; then \
@@ -49,7 +45,7 @@ init-submodules:
 run: init-submodules
 	@if [ ! -d "$(BUILD_DIR)" ]; then $(MAKE) --no-print-directory init; fi
 	@$(MAKE) --no-print-directory build # > /dev/null
-	@printf "\n"
+	@printf "\n-----\n"
 	@find build/ -maxdepth 1 -iname "*demo" -executable -type f -exec {} \; 
 
 .PHONY: build
@@ -134,22 +130,26 @@ doc:	docs
 	@$(OPEN) $(DOXYGEN_DIR)/html/index.html
 
 ##################################################
-## Unit tests & code coverage
+## Unit tests
 ##################################################
 
-.PHONY: test testall
-test:	run
+.PHONY: t test testall
+t:	run test
 	@ninja -C $(BUILD_DIR) test
+
+test:	build
+	build/$(TARGET)_test -s
 
 testall: test r py testr testpy
 
-.PHONY: cov
-cov:
-	@$(MESON) $(COVERAGE_DIR) -Db_coverage=true
-	@ninja -C $(COVERAGE_DIR)
-	@ninja -C $(COVERAGE_DIR) test
-	@ninja -C $(COVERAGE_DIR) coverage-html	
-	@$(OPEN) $(COVERAGE_DIR)/meson-logs/coveragereport/index.html
+##################################################
+## Code coverage
+##################################################
+.PHONY: coverage
+coverage:
+	rm -Rf build/coverage
+	mkdir -p build/coverage
+	cd build/coverage; cmake -DCMAKE_BUILD_TYPE=Debug -DCOVERAGE_BUILD=1 ../../ && make coverage
 
 ##################################################
 ## Debugging, profiling, and memory inspection
@@ -162,17 +162,8 @@ check:
 
 .PHONY: valgrind
 ## Alternatively, enable Address Sanitizer (ASAN argument)
-valgrind-default:
+valgrind:
 	@ninja -C build test_memcheck
-
-.PHONY: valgrind-meson
-valgrind-meson:
-	@meson $(VALGRIND_DIR)
-	@cd $(VALGRIND_DIR); ninja test & meson test --wrap='valgrind  --tool=memcheck --leak-check=yes --show-reachable=yes --num-callers=20 --track-fds=yes '
-	@less $(VALGRIND_DIR)/meson-logs/testlog-valgrind.txt
-	@ninja -C build test_memcheck
-
-
 
 ##################################################
 ## Docker

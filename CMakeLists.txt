@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 2.8.12)
 project("gof")
 
-SET(CMAKE_CXX_FLAGS_DEBUG "-O0")
-SET(CMAKE_C_FLAGS_DEBUG "-O0")
-
-set(CMAKE_BUILD_TYPE Debug) # non-optimized code with debug symbols
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/config")
+#SET(CMAKE_CXX_FLAGS_DEBUG "-O0")
+#SET(CMAKE_C_FLAGS_DEBUG "-O0")
+#set(CMAKE_BUILD_TYPE Debug) # non-optimized code with debug symbols
 #set(CMAKE_BUILD_TYPE RelWithDebInfo)
 #set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_CXX_STANDARD 14)
@@ -28,24 +28,13 @@ endif ()
 MESSAGE( [Main] " ARMADILLO_LIBRARIES = ${ARMADILLO_LIBRARIES}")
 MESSAGE( [Main] " ARMADILLO_INCLUDE_DIRS = ${ARMADILLO_INCLUDE_DIRS}")
 
-# find_package(UnitTest++ QUIET)
-# if (UnitTest++_FOUND)	
-#   MESSAGE ([Main]  " UnitTest++ FOUND")
-# else()
-#   MESSAGE ([Main]  " Using UnitTest++ included in this package")
-#   set(UTPP_INCLUDE_TESTS_IN_BUILD OFF CACHE BOOL "unit test building disabled" FORCE)  
-#   add_subdirectory("lib/unittest-cpp")
-#   include_directories("lib/unittest-cpp")
-# endif()
-
-find_package(Cathc2 QUIET)
-if (UnitTest++_FOUND)	
-  MESSAGE ([Main]  " UnitTest++ FOUND")
+find_package(Catch2 QUIET)
+if (Catch2_FOUND)	
+  MESSAGE ([Main]  " Catch2 FOUND")
 else()
-  MESSAGE ([Main]  " Using UnitTest++ included in this package")
-  set(UTPP_INCLUDE_TESTS_IN_BUILD OFF CACHE BOOL "unit test building disabled" FORCE)  
-  add_subdirectory("lib/unittest-cpp")
-  include_directories("lib/unittest-cpp")
+  MESSAGE ([Main]  " Using Catch2 included in this package")
+  add_subdirectory("lib/catch2")
+  include_directories("lib/catch2")
 endif()
 
 # find_package(spdlog QUIET)
@@ -56,7 +45,6 @@ MESSAGE ([Main]  " Using spdlog included in this package")
 add_subdirectory("lib/spdlog")
 include_directories("lib/spdlog")
 # endif()
-
 
 ################################################################################
 
@@ -79,18 +67,14 @@ target_link_libraries("crdemo" PRIVATE armadillo gof)
 # Tests
 ################################################################################
 
-#SET(SOURCE_DIR "gof")
 SET(TEST_DIR "tests")
 SET(TESTS
-  #"${SOURCE_DIR}/lib.cpp" 
-  "${TEST_DIR}/test_misc.cpp")
-    # "${TEST_DIR}/test_main.cpp"
-    # "${TEST_DIR}/test_math.cpp")
+  "${TEST_DIR}/test_main.cpp"
+  "${TEST_DIR}/test_misc.cpp"
+  )
 
 add_executable("${PROJECT_NAME}_test" ${TESTS})
-target_link_libraries("${PROJECT_NAME}_test" PRIVATE armadillo UnitTest++ spdlog gof)
-##target_link_libraries("${PROJECT_NAME}_test" PRIVATE armadillo Catch2 spdlog gof)
-
+target_link_libraries("${PROJECT_NAME}_test" PRIVATE armadillo Catch2::Catch2 spdlog gof)
 
 find_program( MEMORYCHECK_COMMAND valgrind )
 set( MEMORYCHECK_COMMAND_OPTIONS "--trace-children=yes --leak-check=full" )
@@ -101,5 +85,23 @@ add_custom_target(test_memcheck
     COMMAND ${CMAKE_CTEST_COMMAND} 
         --force-new-ctest-process --test-action memcheck
     COMMAND cat "${CMAKE_BINARY_DIR}/Testing/Temporary/MemoryChecker.*.log")
+
+################################################################################
+# Code coverage
+################################################################################
+
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+  message([DEBUG])
+endif()
+if(COVERAGE_BUILD AND CMAKE_COMPILER_IS_GNUCXX)
+  message([CODE COVERAGE])
+  include(CodeCoverage)
+  append_coverage_compiler_flags()
+  setup_target_for_coverage_lcov(
+          NAME coverage
+          EXECUTABLE ${PROJECT_NAME}_test
+          EXCLUDE "./lib/*" "${PROJECT_SOURCE_DIR}/lib/*")
+endif()
+
 
 
