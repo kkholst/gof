@@ -1,7 +1,7 @@
 /*!
   @file test_misc.cpp
   @author Klaus K. Holst
-  @copyright 2018, Klaus Kähler Holst
+  @copyright 2020, Klaus Kähler Holst
 
   @brief Unit tests
 
@@ -10,7 +10,6 @@
 #include <catch2/catch.hpp>
 #include <spdlog/spdlog.h>
 #include "utils.hpp"
-#include "cumres.hpp"
 
 using namespace arma;
 
@@ -33,13 +32,15 @@ TEST_CASE("Armadillo check", "[arma]") {
 }
 
 TEST_CASE("Cluster-id", "[utils]") {
-
-  SECTION("Test all up to 10") {
-    REQUIRE(1==1);
-  }
   
-  SECTION("Test all up to 11") {
-    REQUIRE(1==1);
+  SECTION("Test clusterid") {    
+    uvec inp = {1,1,2,2,2};
+    umat res = cumres::clusterid(inp);
+    REQUIRE(res.n_rows == 2);
+    REQUIRE(res(0,1) == 2); // size
+    REQUIRE(res(1,1) == 3);
+    REQUIRE(res(0,0) == 0); // index of first element in cluster
+    REQUIRE(res(1,0) == 2);
   }
 
 }

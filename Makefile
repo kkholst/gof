@@ -17,7 +17,7 @@ PIP = /usr/bin/env pip3
 R = /usr/bin/env R --no-save --no-restore
 GIT = /usr/bin/env git
 CMAKE = /usr/bin/env cmake
-GETVER = misc/getversion.py
+GETVER = config/getrversion.py
 R_DEP = 1
 TEST = test
 BUILD=debug
@@ -67,7 +67,7 @@ uninstall:
 .PHONY: r cleanr buildr runr testr roxygen
 
 buildr: cleanr
-	@$(R) --slave -e "source('misc/utilities.R'); \
+	@$(R) --slave -e "source('config/utilities.R'); \
 	load_packages(c('Rcpp', 'RcppArmadillo', 'lava', 'optimx', 'futile.logger'))"
 	@$(R) --slave -e "Rcpp::compileAttributes('R-package')"
 	@$(R) CMD INSTALL R-package
@@ -134,7 +134,7 @@ doc:	docs
 ##################################################
 
 .PHONY: t test testall
-t:	run test
+t:	run
 	@ninja -C $(BUILD_DIR) test
 
 test:	build
@@ -150,6 +150,7 @@ coverage:
 	rm -Rf build/coverage
 	mkdir -p build/coverage
 	cd build/coverage; cmake -DCMAKE_BUILD_TYPE=Debug -DCOVERAGE_BUILD=1 ../../ && make coverage
+	$(OPEN) build/coverage/coverage/index.html
 
 ##################################################
 ## Debugging, profiling, and memory inspection

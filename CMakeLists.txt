@@ -71,6 +71,7 @@ SET(TEST_DIR "tests")
 SET(TESTS
   "${TEST_DIR}/test_main.cpp"
   "${TEST_DIR}/test_misc.cpp"
+  "${TEST_DIR}/test_mlogit.cpp"
   )
 
 add_executable("${PROJECT_NAME}_test" ${TESTS})
