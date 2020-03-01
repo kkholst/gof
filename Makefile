@@ -19,9 +19,10 @@ R_DEP = 1
 TEST = test
 NINJA = /usr/bin/env ninja
 NINJA_BUILD_OPT = -v
-BUILD = -DUSE_PKG_LIB=1 -DNO_COTIRE=0 -DCMAKE_BUILD_TYPE=Debug
+BUILD = -DUSE_PKG_LIB=0 -DNO_COTIRE=0 -DCMAKE_BUILD_TYPE=Debug \
+  -DCMAKE_FIND_PACKAGE_NO_PACKAGE_REGISTRY=ON
 ifneq ($(NINJA),)
-BUILD := $(BUILD) -GNinja
+  BUILD := $(BUILD) -GNinja
 endif
 
 ##################################################
@@ -189,9 +190,11 @@ export:
 	@git archive HEAD | (cd ${PWD}/tmp/$(TARGET); tar x)
 	@git submodule foreach 'curdir=${PWD} cd ${PWD}/$$path; git archive HEAD | tar -x -C ${PWD}/tmp/$(TARGET)/$$path'
 	@echo "Exported to '${PWD}/tmp/$(TARGET)'"
+	@chmod -R 777 ${PWD}/tmp/$(TARGET)
+
 
 dockerrun: 
-	docker run -ti --rm --privileged -v ${PWD}/tmp/$(TARGET):/data $(TARGET)_test ${CMD}
+	docker run --user `id -u` -ti --rm --privileged -v ${PWD}/tmp/$(TARGET):/data $(TARGET)_test ${CMD}
 
 docker: dockerbuild export dockerrun
 
