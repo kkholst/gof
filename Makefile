@@ -19,7 +19,7 @@ R_DEP = 1
 TEST = test
 NINJA = /usr/bin/env ninja
 NINJA_BUILD_OPT = -v
-BUILD = -DUSE_PKG_LIB=0 -DNO_COTIRE=0 -DCMAKE_BUILD_TYPE=Debug
+BUILD = -DUSE_PKG_LIB=1 -DNO_COTIRE=0 -DCMAKE_BUILD_TYPE=Debug
 ifneq ($(NINJA),)
 BUILD := $(BUILD) -GNinja
 endif

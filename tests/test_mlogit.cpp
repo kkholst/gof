@@ -9,7 +9,6 @@
 */
 
 #include <catch2/catch.hpp>
-#include <spdlog/spdlog.h>
 #include "mlogit.hpp"
 
 TEST_CASE("Multinomial logit", "[model]") {
