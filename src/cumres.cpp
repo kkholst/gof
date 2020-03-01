@@ -46,7 +46,7 @@ namespace cumres {
   }
   
   arma::vec cumres::obs() {
-    return arma::cumsum(r)/sqrt(n);
+    return arma::cumsum(r)/std::sqrt((double)n);
   }
 
   // Sample single process 
@@ -72,7 +72,7 @@ namespace cumres {
 	w2(i) = arma::as_scalar(B*eta.row(i).t());
       }
     }    
-    return (w1+w2)/sqrt(n);
+    return (w1+w2)/std::sqrt((double)n);
   }
 
   // Sample 'r' processes
