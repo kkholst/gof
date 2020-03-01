@@ -1,5 +1,5 @@
-Rcpp::compileAttributes("../R-package/")
-devtools::load_all("../R-package")
+Rcpp::compileAttributes("../R-package/gof")
+devtools::load_all("../R-package/gof")
 
 library("futile.logger")
 set.seed(1)

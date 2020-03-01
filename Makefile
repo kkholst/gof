@@ -75,27 +75,28 @@ uninstall:
 ## R package
 ##################################################
 
-.PHONY: r cleanr buildr runr testr roxygen
+pkg = gof
 
+.PHONY: r cleanr buildr runr testr roxygen
 buildr: cleanr
 	@$(R) --slave -e "source('config/utilities.R'); \
 	load_packages(c('Rcpp', 'RcppArmadillo', 'lava', 'optimx', 'futile.logger'))"
-	@$(R) --slave -e "Rcpp::compileAttributes('R-package')"
-	@$(R) CMD INSTALL R-package
+	@$(R) --slave -e "Rcpp::compileAttributes('R-package/${pkg}')"
+	@$(R) CMD INSTALL R-package/${pkg}
 
 testr:
-	@$(R) -e 'testthat::test_package("R-package")'
+	@$(R) -e 'testthat::test_package("./R-package/${pkg}/")'
 
 runr:
 	@cd misc; $(R) --silent -f $(TEST).R
 
 roxygen:
-	@$(R) -e 'roxygen2::roxygenize("R-package")'
+	@$(R) -e 'roxygen2::roxygenize("R-package/${pkg}")'
 
 exportr:
 	@rm -Rf $(BUILD_DIR)/R/$(TARGET)
 	@mkdir -p $(BUILD_DIR)/R/$(TARGET)
-	cd R-package; $(GIT) archive HEAD | (cd ../$(BUILD_DIR)/R/$(TARGET); tar x)
+	cd R-package/${pkg}; $(GIT) archive HEAD | (cd ../../$(BUILD_DIR)/R/$(TARGET); tar x)
 	cp src/*.cpp $(BUILD_DIR)/R/$(TARGET)/src
 	cp src/*.hpp $(BUILD_DIR)/R/$(TARGET)/inst/include
 	sed -i '/^OBJECTS\|SOURCES/d' $(BUILD_DIR)/R/$(TARGET)/src/Makevars
@@ -107,7 +108,7 @@ checkr: exportr
 r: buildr runr
 
 cleanr:
-	@rm -Rf R-package/src/*.o R-package/src/*.so
+	@rm -Rf R-package/${pkg}/src/*.o R-package/${pkg}/src/*.so
 
 ##################################################
 ## Python package

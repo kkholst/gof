@@ -1,0 +1,23 @@
+Package: target
+Type: Package
+Title: What the Package Does Using Title Case
+Version: 0.1
+Date: 2019-10-16
+Author: Klaus Holst
+Maintainer: Klaus Holst <klaus.holst@maersk.com>
+Description: More details about what the package does.
+Depends:
+    R (>= 3.3),
+    lava (>= 1.6.3)
+Suggests:
+    testthat (>= 0.11) 
+License: GPL (>= 2)
+Imports: Rcpp (>= 1.0.0), optimx, futile.logger
+LinkingTo: Rcpp, RcppArmadillo
+LazyLoad: yes
+NeedsCompilation: yes
+SystemRequirements: C++11
+ByteCompile: yes
+RcppModules: riskregmodels
+Encoding: UTF-8
+RoxygenNote: 6.1.1

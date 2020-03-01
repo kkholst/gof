@@ -27,4 +27,4 @@ SystemRequirements: C++11
 ByteCompile: yes
 RcppModules: gofmod
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2

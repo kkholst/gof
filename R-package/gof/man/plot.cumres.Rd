@@ -4,10 +4,23 @@
 \alias{plot.cumres}
 \title{Plot cumulative residuals from a 'cumres' object}
 \usage{
-\method{plot}{cumres}(x, idx = 1:length(x$variable), col = "grey",
-  ci = TRUE, col.ci = "darkblue", col.alpha = 0.3, lty.ci = 0,
-  level = 0.95, legend = c("type1", "type2", "none"), xlab, ylab,
-  vs = TRUE, ylim = NULL, title, ...)
+\method{plot}{cumres}(
+  x,
+  idx = 1:length(x$variable),
+  col = "grey",
+  ci = TRUE,
+  col.ci = "darkblue",
+  col.alpha = 0.3,
+  lty.ci = 0,
+  level = 0.95,
+  legend = c("type1", "type2", "none"),
+  xlab,
+  ylab,
+  vs = TRUE,
+  ylim = NULL,
+  title,
+  ...
+)
 }
 \arguments{
 \item{x}{Object produced by the function \code{cumres}.}
