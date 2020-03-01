@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.12)
-set(target "gof_c")
-project(${gof})
+set(target "target_c")
+project(${target})
 
 #set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_CXX_STANDARD 14)
@@ -37,7 +37,7 @@ MESSAGE( [Main] " ARMADILLO_INCLUDE_DIRS = ${ARMADILLO_INCLUDE_DIRS}")
 # Tests
 ################################################################################
 
-SET(SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src/gof")
+SET(SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src/target")
 SET(TEST_DIR "tests")
 SET(TESTS
   #"${SOURCE_DIR}/lib.cpp"
@@ -87,15 +87,15 @@ else()
   add_subdirectory(src/pybind11)
 endif()
 
-SET(LIBGOF_DIR "${CMAKE_SOURCE_DIR}/src/target-cpp")
-FILE(GLOB LIBGOF_SRC ${LIBGOF_DIR}/*.cpp)
-FILE(GLOB LIBGOF_HDR ${LIBGOF_DIR}/*.hpp)
-MESSAGE( [Main] " LIBGOF_DIR = ${LIBGOF_DIR}")
-include_directories(${LIBGOF_DIR} LIBGOF)
+SET(LIBTARGET_DIR "${CMAKE_SOURCE_DIR}/src/target-cpp")
+FILE(GLOB LIBTARGET_SRC ${LIBTARGET_DIR}/*.cpp)
+FILE(GLOB LIBTARGET_HDR ${LIBTARGET_DIR}/*.hpp)
+MESSAGE( [Main] " LIBTARGET_DIR = ${LIBTARGET_DIR}")
+include_directories(${LIBTARGET_DIR} LIBTARGET)
 
 pybind11_add_module(__${target}__
-  ${LIBGOF_SRC} ${LIBGOF_HDR}
-  src/gof/interface.cpp
+  ${LIBTARGET_SRC} ${LIBTARGET_HDR}
+  src/target/interface.cpp
  )
 
 target_link_libraries(__${target}__ PRIVATE armadillo)

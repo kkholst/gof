@@ -1,6 +1,6 @@
 # -*- mode: makefile; -*-
 
-TARGET = gof
+TARGET = target
 VALGRIND_DIR = build/codetest
 DOXYGEN_DIR = doc
 COVERAGE_DIR = build
@@ -19,7 +19,7 @@ R_DEP = 1
 TEST = test
 NINJA = /usr/bin/env ninja
 NINJA_BUILD_OPT = -v
-BUILD = -DUSE_PKG_LIB=0 -DNO_COTIRE=0 -DCMAKE_BUILD_TYPE=Debug \
+BUILD = -DUSE_PKG_LIB=0 -DNO_COTIRE=1 -DCMAKE_BUILD_TYPE=Debug \
   -DCMAKE_FIND_PACKAGE_NO_PACKAGE_REGISTRY=ON
 ifneq ($(NINJA),)
   BUILD := $(BUILD) -GNinja
@@ -51,7 +51,8 @@ run: init-submodules
 	@if [ ! -d "$(BUILD_DIR)" ]; then $(MAKE) --no-print-directory init; fi
 	@$(MAKE) --no-print-directory build # > /dev/null
 	@printf "\n-----\n"
-	@find build/ -maxdepth 1 -iname "*demo" -executable -type f -exec {} \; 
+	@find build/ -maxdepth 1 -iname "*demo" -executable -type f \
+	-exec {} \; 
 
 
 .PHONY: build

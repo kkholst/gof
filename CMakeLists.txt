@@ -10,7 +10,7 @@
 #   CMAKE_VERBOSE_MAKEFILE: ON
 ################################################################################
 cmake_minimum_required(VERSION 3.3) # Was 2.8.12
-project("gof")
+project("target")
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/config")
@@ -66,23 +66,25 @@ endif()
 # Main library
 ################################################################################
 
-set(LIBGOF_DIR "${CMAKE_SOURCE_DIR}/src")
-file(GLOB LIBGOF_SRC ${LIBGOF_DIR}/*.cpp)
-file(GLOB LIBGOF_HDR ${LIBGOF_DIR}/*.hpp)
-include_directories(${LIBGOF_DIR})
-add_library(gof ${LIBGOF_SRC} ${LIBGOF_HDR})
+set(LIBTARGET_DIR "${CMAKE_SOURCE_DIR}/src")
+file(GLOB LIBTARGET_SRC ${LIBTARGET_DIR}/*.cpp)
+file(GLOB LIBTARGET_HDR ${LIBTARGET_DIR}/*.hpp)
+include_directories(${LIBTARGET_DIR})
+add_library(target ${LIBTARGET_SRC} ${LIBTARGET_HDR})
 if(NOT NO_COTIRE)
-  cotire(gof) # precompile headers
+  cotire(target) # precompile headers
 endif()
-message( [Main] " LIBGOF_DIR = ${LIBGOF_DIR}")
-target_link_libraries(gof PRIVATE armadillo)
+message( [Main] " LIBTARGET_DIR = ${LIBTARGET_DIR}")
+target_link_libraries(target PRIVATE armadillo)
 
 ################################################################################
 # Executables
 ################################################################################
 
 add_executable("crdemo" "misc/crdemo.cpp")
-target_link_libraries("crdemo" PRIVATE armadillo gof)
+add_executable("dredemo" "misc/dredemo.cpp")
+target_link_libraries("crdemo" PRIVATE armadillo target)
+target_link_libraries("dredemo" PRIVATE armadillo target)
 
 ################################################################################
 # Tests
@@ -93,10 +95,11 @@ set(TESTS
   "${TEST_DIR}/test_main.cpp"
   "${TEST_DIR}/test_misc.cpp"
   "${TEST_DIR}/test_mlogit.cpp"
+  "${TEST_DIR}/test_target.cpp"  
   )
 
 add_executable("${PROJECT_NAME}_test" ${TESTS})
-target_link_libraries("${PROJECT_NAME}_test" PRIVATE armadillo Catch2::Catch2 gof)
+target_link_libraries("${PROJECT_NAME}_test" PRIVATE armadillo Catch2::Catch2 target)
 
 find_program( MEMORYCHECK_COMMAND valgrind )
 set( MEMORYCHECK_COMMAND_OPTIONS "--trace-children=yes --leak-check=full" )
