@@ -23,15 +23,10 @@
 
 using cx_dbl  = std::complex<double>;
 using cx_func = std::function<arma::cx_mat(arma::cx_vec theta)>;
-using matlist = std::vector<arma::mat>;
 
 namespace target {
   
   arma::mat deriv(cx_func f, arma::vec theta);
-  
-  arma::mat expit(arma::mat x);
-  arma::cx_mat expit(arma::cx_mat x);
-  arma::vec softmax(arma::vec u);
 
   arma::umat clusterid(const arma::uvec &id);  
   arma::mat groupsum(const arma::mat &x, const arma::uvec &cluster, bool reduce);  
