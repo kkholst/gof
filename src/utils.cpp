@@ -9,7 +9,7 @@
 */
 #include "utils.hpp"
 
-namespace cumres {
+namespace target {
 
  
   // Softmax transformation using sum-log-exp trick to avoid overflow
@@ -182,4 +182,4 @@ namespace cumres {
   const char* LCYAN     = "\x1b[96m";
   const char* LWHITE    = "\x1b[97m";
 
-} // namespace cumres
+} // namespace target

@@ -19,33 +19,33 @@
 
 // [[Rcpp::export]]
 double SupTest(const arma::vec &x) {
-  return cumres::SupTest(x);
+  return target::SupTest(x);
 }
 
 // [[Rcpp::export]]
 double L2Test(const arma::vec &x, const arma::vec &t) {
-  return cumres::L2Test(x, t);
+  return target::L2Test(x, t);
 }
 
 RCPP_MODULE(gofmod) {
     using namespace Rcpp;
-    class_<cumres::cumres>("CumRes")
+    class_<target::cumres>("CumRes")
     // expose the constructor
       .constructor<arma::vec, 
 		   arma::mat,
 		   arma::mat>("Constructor")
-      .field( "t", &cumres::cumres::t )
-      .field( "ord", &cumres::cumres::ord )
-      .field( "r", &cumres::cumres::r )
-      .field( "qt", &cumres::cumres::qt )
+      .field( "t", &target::cumres::t )
+      .field( "ord", &target::cumres::ord )
+      .field( "r", &target::cumres::r )
+      .field( "qt", &target::cumres::qt )
 
-      .method("samplestat", (arma::mat (cumres::cumres::*)(unsigned, arma::uvec, bool ) )( &cumres::cumres::sample),
+      .method("samplestat", (arma::mat (target::cumres::*)(unsigned, arma::uvec, bool ) )( &target::cumres::sample),
       	       "sample process and return Sup and L2 statistic")
-      .method("sample1", (arma::vec (cumres::cumres::*)(arma::uvec) )( &cumres::cumres::sample),
+      .method("sample1", (arma::vec (target::cumres::*)(arma::uvec) )( &target::cumres::sample),
 	       "sample process")      
-      .method("obs",    &cumres::cumres::obs,   "Return observed process")      
-      .method("rnorm",  &cumres::cumres::rnorm,   "Sample from Gaussian")
-      .method("reorder",  &cumres::cumres::reorder,  "Order observations after input variable")
+      .method("obs",    &target::cumres::obs,   "Return observed process")      
+      .method("rnorm",  &target::cumres::rnorm,   "Sample from Gaussian")
+      .method("reorder",  &target::cumres::reorder,  "Order observations after input variable")
       ;
 }
 

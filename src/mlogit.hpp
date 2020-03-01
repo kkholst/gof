@@ -2,7 +2,7 @@
 
 #include "utils.hpp"
 
-namespace mlogit {
+namespace target {
   
 class MLogit
 {
@@ -12,9 +12,11 @@ private:
   arma::mat _z2; // alternative-specific with varying coef.
   arma::mat _x;  // individual specific covariates  
   arma::uvec _id_idx; // Index of start of each cluster (choice observations for each individual is a 'cluster')
-  arma::uvec _alt;     // Vector of alternatives
+  arma::uvec _alt;    // Vector of alternatives
+  arma::uvec _choice; // alternative-specific with constant coef.  
   // Vector of unique alternatives (base-ref: 0)
   arma::uvec alt_idx;
+  arma::vec _weights;
 
   // Parameters
   arma::vec theta_z1;
@@ -39,13 +41,18 @@ public:
   unsigned p_x;  // Number of columns in x
   
   MLogit() {}; // Empty constructor
-  MLogit(const arma::uvec &alt,
+  MLogit(const arma::uvec &choice,
+	 const arma::uvec &alt,
 	 const arma::uvec &id_idx, 
 	 const arma::mat &z1,
 	 const arma::mat &z2,
 	 const arma::mat &x,
-	 unsigned nalt=0);
+	 unsigned nalt=0,
+	 arma::vec weights=arma::vec());
   
+  arma::mat hessian(bool update);
+  arma::mat score(bool update, bool indiv);
+  double loglik();
   void updateZX();
   void updateRef(unsigned basealt);
   void updatePar(arma::vec theta);
@@ -54,6 +61,12 @@ public:
     updatePar(theta);
     updateProb();
   }
+
+  const arma::vec*  Weights() { return &_weights; }
+  double            Weights(unsigned i) { return _weights(i); }
+
+  const arma::uvec* Choice() { return &_choice; }
+  unsigned          Choice(unsigned i) { return _choice(i); }
 
   const arma::uvec* Alt() { return &_alt; }
   unsigned          Alt(unsigned i) { return _alt(i); }
@@ -70,8 +83,14 @@ public:
   const arma::uvec* cluster() { return &_id_idx; }
   unsigned          cluster(unsigned index) { return _id_idx(index); }
 
-  void updateData(const arma::uvec &alt, const arma::uvec &id_idx,
-		  const arma::mat &z1, const arma::mat &z2, const arma::mat &x) {
+  void updateData(const arma::uvec &choice,
+		  const arma::uvec &alt,
+		  const arma::uvec &id_idx,
+		  const arma::mat &z1,
+		  const arma::mat &z2,
+		  const arma::mat &x,
+		  const arma::vec &weights) {
+    _choice = choice;
     _z1 = z1;
     _z2 = z2;
     _x = x;
@@ -84,5 +103,5 @@ public:
 
 };
 
-}  // namespace logit
+}  // namespace target
 

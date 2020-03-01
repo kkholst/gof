@@ -25,7 +25,7 @@ using cx_dbl  = std::complex<double>;
 using cx_func = std::function<arma::cx_mat(arma::cx_vec theta)>;
 using matlist = std::vector<arma::mat>;
 
-namespace cumres {
+namespace target {
   
   arma::mat deriv(cx_func f, arma::vec theta);
   
@@ -60,5 +60,6 @@ namespace cumres {
   extern const char* LBLUE;
   extern const char* LMAGENTA;
   extern const char* LCYAN;
-  extern const char* LWHITE;  
-}  // namespace cumres
+  extern const char* LWHITE;
+  
+}  // namespace target

@@ -10,6 +10,10 @@
 
 #include "utils.hpp"
 
-arma::mat pava(arma::vec y,
-	       const arma::vec &x=arma::vec(),
-	       arma::vec w=arma::vec());
+namespace target {
+  
+  arma::mat pava(arma::vec y,
+		 const arma::vec &x=arma::vec(),
+		 arma::vec w=arma::vec());
+  
+} // namespace target

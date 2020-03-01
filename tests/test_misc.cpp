@@ -24,7 +24,7 @@ TEST_CASE("Cluster-id", "[utils]") {
   
   SECTION("Test clusterid") {    
     uvec inp = {1,1,2,2,2};
-    umat res = cumres::clusterid(inp);
+    umat res = target::clusterid(inp);
     REQUIRE(res.n_rows == 2);
     REQUIRE(res(0,1) == 2); // size
     REQUIRE(res(1,1) == 3);

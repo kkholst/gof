@@ -14,7 +14,7 @@
 #include <algorithm> // max
 
 using namespace arma;
-using namespace cumres;
+using namespace target;
 
 
 int main(int argc, char **argv) {
@@ -71,7 +71,7 @@ int main(int argc, char **argv) {
 
 
   arma_rng::set_seed_random();
-  cumres::cumres proc(r, -x, ii);
+  target::cumres proc(r, -x, ii);
   proc.reorder(arma::conv_to<arma::vec>::from(ord));
   vec res = proc.sample();
   std::cout << GREEN << "... " << trans(res.subvec(n-10,n))  << std::endl << std::endl;
@@ -79,7 +79,7 @@ int main(int argc, char **argv) {
   arma::vec ks = proc.sample(100).col(0);
   std::cout << RED << trans(ks.subvec(0,10)) << std::endl << std::endl;
   vec obs = proc.obs();
-  double ks0 = cumres::SupTest(obs);
+  double ks0 = target::SupTest(obs);
   uvec idx = arma::find(ks>ks0);
   double pval = idx.n_elem/(double)ks.n_elem;
   std::cout << BLUE << "p-value = " << pval << std::endl;

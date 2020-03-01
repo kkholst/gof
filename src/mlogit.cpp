@@ -4,18 +4,25 @@ using namespace arma;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace mlogit {
+namespace target {
 
-  MLogit::MLogit(const arma::uvec &alt,
+  MLogit::MLogit(const arma::uvec &choice,
+		 const arma::uvec &alt,
 		 const arma::uvec &id_idx, 
 		 const arma::mat &z1,
 		 const arma::mat &z2,
 		 const arma::mat &x,
-		 unsigned nalt) {
-    updateData(alt, id_idx, z1, z2, x);
+		 unsigned nalt,
+		 arma::vec weights) {
+    n = alt.n_elem;
     J = nalt;
     ncl = id_idx.n_elem;
-    n = alt.n_elem;
+    if (weights.is_empty()) {
+      weights = arma::vec(n);
+      weights.fill(1);
+    }
+    updateData(choice, alt, id_idx, z1, z2, x, weights);
+    
     if (nalt==0) {
       arma::uvec ualt = arma::unique(alt);
       J = ualt.n_elem;
@@ -48,6 +55,34 @@ namespace mlogit {
     zx = arma::sp_mat(n, theta.n_elem);	
   }  
 
+  double MLogit::loglik() {
+    return as_scalar(sum(logpr%(*Choice())%(*Weights())));
+  }
+  
+  mat MLogit::score(bool update=false, bool indiv=true) {
+    if (update) MLogit::updateZX();
+    vec pr = exp(logpr);
+    mat xp = zx;
+    xp.each_col() %= pr;
+    xp = target::groupsum(xp, *cluster(), true);
+    uvec chosen  = find((*Choice()));
+    mat score = zx.rows(chosen) - xp;
+    score.each_col() %= (*Weights()).elem(chosen);
+    if (!indiv) score = sum(score,0); // Column-sums
+    return score;
+  }
+  
+  mat MLogit::hessian(bool update=false) {
+    if (update) MLogit::updateZX();
+    vec pr = exp(logpr);
+    mat xp = zx;
+    xp.each_col() %= pr;
+    mat tmp = xp;
+    xp = zx - target::groupsum(xp, *cluster(), false);
+    tmp.each_col() %= target::groupsum((*Weights())%(*Choice()), *cluster(), false);
+    mat hess = -xp.t()*tmp;
+    return hess;
+  }
   
   void MLogit::updateRef(unsigned basealt) {
     // Sets the base/reference alternative
@@ -141,7 +176,7 @@ namespace mlogit {
     	} else {
     	  stop = this->cluster(i+1)-1;
     	}
-    	vec a = cumres::softmax( lp.subvec(start, stop) ); // Multinomial logit / softmax
+    	vec a = target::softmax( lp.subvec(start, stop) ); // Multinomial logit / softmax
     	for (unsigned j=0; j<a.n_elem; j++) {	
     	  logpr(pos) = a(j);
     	  pos++;
@@ -149,7 +184,7 @@ namespace mlogit {
     }    
   }
   
-} // namespace mlogit
+} // namespace target
 
 ////////////////////////////////////////////////////////////////////////////////
 

@@ -11,7 +11,7 @@
 
 #include "cumres.hpp"
 
-namespace cumres {
+namespace target {
 
   cumres::cumres(const arma::vec &r, const arma::mat &dr, const arma::mat &ic) : r(r), dr(dr), ic(ic) {
 #ifndef ARMA_R
@@ -104,7 +104,5 @@ namespace cumres {
     return res;
   }
 
-  
-
-}  // namespace cumres
+}  // namespace target
 

@@ -10,7 +10,7 @@
 #pragma once
 #include "utils.hpp"
 
-namespace cumres {
+namespace target {
  
   class cumres {
   public:
