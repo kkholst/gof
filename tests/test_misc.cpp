@@ -13,17 +13,6 @@
 
 using namespace arma;
 
-bool True() { return(true); }
-
-TEST_CASE("Sanity check", "[sanity]") {
-  spdlog::info("Sanity checks!");
-  REQUIRE(True());
-  REQUIRE(2 == 2);
-  CHECK(1 == 1); // Continue even if test fails
-  REQUIRE(100.5 == Approx(100).epsilon(0.01)); // Allow 1% difference
-  REQUIRE(100 == Approx(100));
-}
-
 TEST_CASE("Armadillo check", "[arma]") {
   vec x = {1,2,3};
   spdlog::info("Size: {:d}", x.n_elem);
@@ -43,6 +32,19 @@ TEST_CASE("Cluster-id", "[utils]") {
     REQUIRE(res(1,0) == 2);
   }
 
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+bool True() { return(true); }
+
+TEST_CASE("Sanity check", "[sanity]") {
+  spdlog::info("Sanity checks!");
+  REQUIRE(True());
+  REQUIRE(2 == 2);
+  CHECK(1 == 1); // Continue even if test fails
+  REQUIRE(100.5 == Approx(100).epsilon(0.01)); // Allow 1% difference
+  REQUIRE(100 == Approx(100));
 }
 
 

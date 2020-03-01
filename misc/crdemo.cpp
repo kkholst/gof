@@ -9,6 +9,7 @@
 
 //#define ARMA_USE_HDF5
 #include "cumres.hpp"
+#include "pava.hpp"
 #include <cstdio>  // remove
 #include <algorithm> // max
 
@@ -17,9 +18,11 @@ using namespace cumres;
 
 
 int main(int argc, char **argv) {
-
-  std::string infile = "examples/d.csv";
-  std::string infile2 = "examples/r.csv";  
+  std::cout << "Pava: \n";
+  return 0;
+  
+  std::string infile = "misc/d.csv";
+  std::string infile2 = "misc/r.csv";  
   if ( argc>1 ) {
     infile = argv[1];
     std::cout << "* Reading from '" << infile << "'\n\n";
@@ -28,12 +31,17 @@ int main(int argc, char **argv) {
     infile = argv[2];
     std::cout << "* Reading from '" << infile << "'\n\n";
   }  
-
+ 
   mat d;
   d.load(infile, arma::csv_ascii);
   vec y = d.col(0);
   mat x = d.cols(1,2);
   x.insert_cols(0,1); x.col(0) += 1;
+
+  std::cout << "Pava: \n";
+  arma::mat pres = pava(y);
+  std::cout << pres << std::endl;
+  return 0;
   
   // else {
   // // std::cout << "* Simulating data...\n\n";

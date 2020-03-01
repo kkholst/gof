@@ -2,7 +2,6 @@ Rcpp::compileAttributes("../R-package/")
 devtools::load_all("../R-package")
 
 library("futile.logger")
-flog.layout(layout.colored)
 set.seed(1)
 n <- 1000
 flog.info("Simulating (n=%s)", n)

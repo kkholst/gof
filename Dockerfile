@@ -5,4 +5,5 @@ RUN R -e 'install.packages(c("lava", "DEoptim"), repos="https://cloud.r-project.
 RUN apk add tmux mg git ninja ccache
 
 WORKDIR /data
-CMD make test r py clean
+CMD make init test
+#r py clean

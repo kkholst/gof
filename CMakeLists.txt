@@ -1,59 +1,80 @@
-cmake_minimum_required(VERSION 2.8.12)
+################################################################################
+# Copyright 2020 Klaus Holst (http://holst.it)
+################################################################################
+# CMake Properties:
+#   NO_COTIRE: Disable precompiled headers.
+#   USE_PKG_LIB: Force use of libraries supplied with this package instead of
+#  	         system libraries.
+# Cmake specific settings:
+#   CMAKE_BUILD_TYPE: Debug (non-optimized code with debug symbols), RelWithDebInfo
+#   CMAKE_VERBOSE_MAKEFILE: ON
+################################################################################
+cmake_minimum_required(VERSION 3.3) # Was 2.8.12
 project("gof")
 
+set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/config")
-#SET(CMAKE_CXX_FLAGS_DEBUG "-O0")
-#SET(CMAKE_C_FLAGS_DEBUG "-O0")
-#set(CMAKE_BUILD_TYPE Debug) # non-optimized code with debug symbols
-#set(CMAKE_BUILD_TYPE RelWithDebInfo)
-#set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_program(CCACHE_FOUND ccache)
 if(CCACHE_FOUND)
-    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
-    set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
+  set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
+  set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)    
 endif(CCACHE_FOUND)
 
+if(NOT NO_COTIRE)
+  set(ENV{CCACHE_SLOPPINESS} "pch_defines,time_macros") ## For precompiled headers to work with ccache:
+  include(cotire)
+endif()
+
+################################################################################
+# Libraries 
+################################################################################
+
 find_package(Armadillo 9.500 QUIET)
-if (ARMADILLO_FOUND)	
-  MESSAGE ([Main]  " Armadillo FOUND")
+if (ARMADILLO_FOUND AND NOT USE_PKG_LIB)	
+  message ([Main]  " Armadillo FOUND")
 else()
-  MESSAGE ([Main]  " Using Armadillo included in this package")
+  message ([Main]  " Using Armadillo included in this package")
   find_package(LAPACK REQUIRED)
   add_subdirectory("lib/armadillo")
   include_directories("lib/armadillo")
 endif ()
-MESSAGE( [Main] " ARMADILLO_LIBRARIES = ${ARMADILLO_LIBRARIES}")
-MESSAGE( [Main] " ARMADILLO_INCLUDE_DIRS = ${ARMADILLO_INCLUDE_DIRS}")
+message( [Main] " ARMADILLO_LIBRARIES = ${ARMADILLO_LIBRARIES}")
+message( [Main] " ARMADILLO_INCLUDE_DIRS = ${ARMADILLO_INCLUDE_DIRS}")
 
 find_package(Catch2 QUIET)
-if (Catch2_FOUND)	
-  MESSAGE ([Main]  " Catch2 FOUND")
+if (Catch2_FOUND AND NOT USE_PKG_LIB)	
+  message ([Main]  " Catch2 FOUND")
 else()
-  MESSAGE ([Main]  " Using Catch2 included in this package")
+  message ([Main]  " Using Catch2 included in this package")
   add_subdirectory("lib/catch2")
   include_directories("lib/catch2")
 endif()
 
-# find_package(spdlog QUIET)
-# if (spdlog_FOUND)	
-#   MESSAGE ([Main]  " spdlog FOUND")
-# else()
-MESSAGE ([Main]  " Using spdlog included in this package")
-add_subdirectory("lib/spdlog")
-include_directories("lib/spdlog")
-# endif()
+find_package(spdlog QUIET)
+if (spdlog_FOUND AND NOT USE_PKG_LIB)	
+  message ([Main]  " spdlog FOUND")
+else()
+  message ([Main]  " Using spdlog included in this package")
+  add_subdirectory("lib/spdlog")
+  include_directories("lib/spdlog")
+endif()
 
 ################################################################################
+# Main library
+################################################################################
 
-SET(LIBGOF_DIR "${CMAKE_SOURCE_DIR}/src")
-FILE(GLOB LIBGOF_SRC ${LIBGOF_DIR}/*.cpp)
-FILE(GLOB LIBGOF_HDR ${LIBGOF_DIR}/*.hpp)
+set(LIBGOF_DIR "${CMAKE_SOURCE_DIR}/src")
+file(GLOB LIBGOF_SRC ${LIBGOF_DIR}/*.cpp)
+file(GLOB LIBGOF_HDR ${LIBGOF_DIR}/*.hpp)
 include_directories(${LIBGOF_DIR})
 add_library(gof ${LIBGOF_SRC} ${LIBGOF_HDR})
-MESSAGE( [Main] " LIBGOF_DIR = ${LIBGOF_DIR}")
+if(NOT NO_COTIRE)
+  cotire(gof) # precompile headers
+endif()
+message( [Main] " LIBGOF_DIR = ${LIBGOF_DIR}")
 target_link_libraries(gof PRIVATE armadillo)
 
 ################################################################################
@@ -67,15 +88,15 @@ target_link_libraries("crdemo" PRIVATE armadillo gof)
 # Tests
 ################################################################################
 
-SET(TEST_DIR "tests")
-SET(TESTS
+set(TEST_DIR "tests")
+set(TESTS
   "${TEST_DIR}/test_main.cpp"
   "${TEST_DIR}/test_misc.cpp"
   "${TEST_DIR}/test_mlogit.cpp"
   )
 
 add_executable("${PROJECT_NAME}_test" ${TESTS})
-target_link_libraries("${PROJECT_NAME}_test" PRIVATE armadillo Catch2::Catch2 spdlog gof)
+target_link_libraries("${PROJECT_NAME}_test" PRIVATE armadillo Catch2::Catch2 gof)
 
 find_program( MEMORYCHECK_COMMAND valgrind )
 set( MEMORYCHECK_COMMAND_OPTIONS "--trace-children=yes --leak-check=full" )
@@ -91,17 +112,20 @@ add_custom_target(test_memcheck
 # Code coverage
 ################################################################################
 
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-  message([DEBUG])
-endif()
 if(COVERAGE_BUILD AND CMAKE_COMPILER_IS_GNUCXX)
-  message([CODE COVERAGE])
+  message([CODECOVERAGE])
   include(CodeCoverage)
   append_coverage_compiler_flags()
   setup_target_for_coverage_lcov(
           NAME coverage
           EXECUTABLE ${PROJECT_NAME}_test
           EXCLUDE "./lib/*" "${PROJECT_SOURCE_DIR}/lib/*")
+endif()
+
+################################################################################
+
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+  message([DEBUG])
 endif()
 
 

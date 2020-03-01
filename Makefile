@@ -1,16 +1,13 @@
 # -*- mode: makefile; -*-
 
 TARGET = gof
-VALGRIND_DIR := build/codetest
-DOXYGEN_DIR := doc
-COVERAGE_DIR := build
-BUILD_DIR := build
-INSTALL_DIR := $(HOME)/local
+VALGRIND_DIR = build/codetest
+DOXYGEN_DIR = doc
+COVERAGE_DIR = build
+BUILD_DIR = build
+INSTALL_DIR = $(HOME)/local
 ARG =  -Db_coverage=true $(ASAN) -Dprefix=$(INSTALL_DIR)
 LINTER = cclint
-# ASAN =-Db_sanitize=address
-# CXX = clang++
-# CC = g++
 OPEN = $(shell which xdg-open || which gnome-open || which open)
 PYTHON = /usr/bin/env python3
 PIP = /usr/bin/env pip3
@@ -20,8 +17,14 @@ CMAKE = /usr/bin/env cmake
 GETVER = config/getrversion.py
 R_DEP = 1
 TEST = test
-BUILD=debug
-#BUILD=release
+NINJA = /usr/bin/env ninja
+NINJA_BUILD_OPT = -v
+BUILD = -DUSE_PKG_LIB=0 -DNO_COTIRE=0 -DCMAKE_BUILD_TYPE=Debug
+ifneq ($(NINJA),)
+BUILD := $(BUILD) -GNinja
+endif
+
+##################################################
 
 default: build runr
 
@@ -35,7 +38,8 @@ clean: cleanr cleanpy
 
 .PHONY: init init-submodules
 init: clean
-	@$(CMAKE) -G Ninja -B build
+	@echo "Build options: $(BUILD)"
+	@$(CMAKE) -B build $(BUILD)
 
 init-submodules:
 	@if [ -z "`find \"lib/armadillo\" -mindepth 1 -exec echo notempty \; -quit`" ]; then \
@@ -48,17 +52,22 @@ run: init-submodules
 	@printf "\n-----\n"
 	@find build/ -maxdepth 1 -iname "*demo" -executable -type f -exec {} \; 
 
+
 .PHONY: build
 build:
-	@ninja -C $(BUILD_DIR) -v
+	@if [ -f $(BUILD_DIR)/build.ninja ]; then \
+	$(NINJA) -C $(BUILD_DIR) $(NINJA_BUILD_OPT); \
+	else \
+	cd $(BUILD_DIR); make; \
+	fi
 
 .PHONY: install
 install:
-	ninja -C $(BUILD_DIR) install
+	$(NINJA) -C $(BUILD_DIR) install
 
 .PHONY: uninstall
 uninstall:
-	ninja -C $(BUILD_DIR) uninstall
+	$(NINJA) -C $(BUILD_DIR) uninstall
 
 ##################################################
 ## R package
@@ -162,7 +171,7 @@ check:
 	-cppcheck --enable=all src/
 
 .PHONY: valgrind
-## Alternatively, enable Address Sanitizer (ASAN argument)
+## Alternatively, enable Address Sanitizer (ASAN =-Db_sanitize=address)
 valgrind:
 	@ninja -C build test_memcheck
 
