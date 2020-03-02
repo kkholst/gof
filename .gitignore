@@ -1,52 +1,34 @@
-misc/*.csv
-misc/functional
-
-Rplots*
-.#*
-examples/functional
-examples/test
-.Rhistory
-examples/*.csv
-doc/html
-build
-tmp
-__pycache__
-
-# Created by https://www.gitignore.io/api/c++
-# Edit at https://www.gitignore.io/?templates=c++
-
-### C++ ###
-# Prerequisites
-*.d
-
-# Compiled Object files
-*.slo
-*.lo
+*.gcno
+TAGS
 *.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
 *.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
+*~
+test
+*.RData
+*.Rhistory
+*.Rcheck
+*.tar.gz
+*.zip
+*.tgz
+*.obsolete
+x.log
+nohup.out
+tmp
+valgrind*
+test
+*.tmp
+*.bbl
+*.blg
+*.bak
+*.snm
+*.aux
+*.log
+*~
 *.out
-*.app
-
-# End of https://www.gitignore.io/api/c++
+*.swp
+*.nav
+*.toc
+*.vrb
+*.dvi
+_region*
+symbols.rds
