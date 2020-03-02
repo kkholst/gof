@@ -8,9 +8,17 @@ Maintainer: Klaus. K. Holst <klaus@holst.it>
 Description: Implementation of model-checking techniques for generalized linear
     models and linear structural equation models based on cumulative residuals
     (Lin, Wei & Ying (2002) <doi:10.1111/j.0006-341x.2002.00001.x>).
-Depends: R (>= 3.3), lava (>= 1.6.3)
-Imports: methods, mets (>= 1.0.0), Rcpp (>= 1.0.0),
-Suggests: futile.logger, testthat (>= 0.11), numDeriv
+Depends:
+    R (>= 3.3),
+    lava (>= 1.6.3)
+Imports:
+    methods,
+    mets (>= 1.0.0),    
+    Rcpp (>= 1.0.0),
+Suggests:
+    futile.logger,
+    testthat (>= 0.11),
+    numDeriv
 License: GPL (>=2)
 LinkingTo: Rcpp, RcppArmadillo
 LazyLoad: yes
@@ -20,4 +28,3 @@ ByteCompile: yes
 RcppModules: gofmod
 Encoding: UTF-8
 RoxygenNote: 7.0.2
-Packaged: 2020-03-02 12:40:02 UTC; klaus
