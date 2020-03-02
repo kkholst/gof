@@ -1,9 +1,14 @@
 #include <pybind11/stl.h>
 #include "armapy.hpp"
 #include "cumres.hpp"
+#include "utils.hpp"
+#include "glm.hpp"
+#include "riskreg.hpp"
 #include <string>
 #include <complex>
 #include <memory>     // smart pointers (unique_ptr)
+
+using namespace target;
 
 pyarray expit(pyarray &x) {
   arma::mat res = target::expit(pymat(x));
@@ -69,7 +74,8 @@ public:
 PYBIND11_MODULE(__target_c__, m) {
   m.doc() = "Python bindings for the target C++ library";
 
-  m.def("expit", &expit, "Sigmoid function (inverse logit)");
+  //  m.def("expit", &target::expit, "Sigmoid function (inverse logit)");
+  m.def("expit", [](arma::mat &x) { return target::expit(x); }, "Sigmoid function (inverse logit)");
 
   py::class_<RiskRegPy>(m, "riskregmodel")
     .def(py::init<pyarray &, pyarray &,   // y, a

@@ -15,9 +15,6 @@ R = /usr/bin/env R --no-save --no-restore
 GIT = /usr/bin/env git
 CMAKE = /usr/bin/env cmake
 GETVER = config/getrversion.py
-pkg = gof # R-package 
-R_DEP = 1
-TEST := $(pkg)_test
 NINJA = /usr/bin/env ninja
 NINJA_BUILD_OPT = -v
 BUILD = -DUSE_PKG_LIB=0 -DNO_COTIRE=1 -DCMAKE_BUILD_TYPE=Debug \
@@ -25,6 +22,12 @@ BUILD = -DUSE_PKG_LIB=0 -DNO_COTIRE=1 -DCMAKE_BUILD_TYPE=Debug \
 ifneq ($(NINJA),)
   BUILD := $(BUILD) -GNinja
 endif
+# R package:
+pkg = gof
+R_DEP = 1
+TESTR = $(pkg)_test
+# python package
+TESTPY = target_test
 
 ##################################################
 
@@ -87,7 +90,8 @@ testr:
 	@$(R) -e 'testthat::test_package("./R-package/${pkg}/")'
 
 runr:
-	@cd misc; $(R) --silent -f $(TEST).R
+	echo "Test: $(TEST)"
+	@cd misc; $(R) --silent -f $(TESTR).R
 
 roxygen:
 	@$(R) -e 'roxygen2::roxygenize("R-package/${pkg}")'
@@ -122,7 +126,7 @@ testpy:
 	@cd python-package; $(MAKE) test
 
 runpy:
-	@$(PYTHON) misc/$(TEST).py
+	@$(PYTHON) misc/$(TESTPY).py
 
 py: buildpy runpy
 
@@ -139,6 +143,9 @@ docs:
 
 doc:	docs
 	@$(OPEN) $(DOXYGEN_DIR)/html/index.html
+
+markdown:
+	@grip 1313 -b
 
 ##################################################
 ## Unit tests

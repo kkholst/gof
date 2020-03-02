@@ -7,27 +7,20 @@
 
 */
 
-#include <UnitTest++/UnitTest++.h>
-
+#include <catch2/catch.hpp>
 
 bool True() { return(true); }
 
-SUITE(TargetMethods) {
-  TEST(Sanity) {
+TEST_CASE("Target methods", "[target]") {
+  
+  SECTION("Sanity") {
     CHECK(True());
-    CHECK_EQUAL(2, 2);
+    CHECK(2 == 2);
   }
 
-  TEST(dummy1) {
+  SECTION("dummy1") {
     CHECK(2 == 2);    
   }
-  
-  TEST(dummy2) {
-    CHECK_CLOSE(2, 2, 1e-9);
-  }
 }
 
 
-int main() {
-    return UnitTest::RunAllTests();
-}
