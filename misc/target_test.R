@@ -1,6 +1,5 @@
 library("target")
 library("futile.logger")
-flog.layout(layout.colored)
 
 flog.info("Simulating")
 set.seed(1)

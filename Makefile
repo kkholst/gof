@@ -15,8 +15,9 @@ R = /usr/bin/env R --no-save --no-restore
 GIT = /usr/bin/env git
 CMAKE = /usr/bin/env cmake
 GETVER = config/getrversion.py
+pkg = gof # R-package 
 R_DEP = 1
-TEST = test
+TEST := $(pkg)_test
 NINJA = /usr/bin/env ninja
 NINJA_BUILD_OPT = -v
 BUILD = -DUSE_PKG_LIB=0 -DNO_COTIRE=1 -DCMAKE_BUILD_TYPE=Debug \
@@ -74,8 +75,6 @@ uninstall:
 ##################################################
 ## R package
 ##################################################
-
-pkg = gof
 
 .PHONY: r cleanr buildr runr testr roxygen
 buildr: cleanr
@@ -194,9 +193,8 @@ export:
 	@echo "Exported to '${PWD}/tmp/$(TARGET)'"
 	@chmod -R 777 ${PWD}/tmp/$(TARGET)
 
-
-dockerrun: 
+dockerrun:
 	docker run --user `id -u` -ti --rm --privileged -v ${PWD}/tmp/$(TARGET):/data $(TARGET)_test ${CMD}
 
-docker: dockerbuild export dockerrun
+docker: export dockerrun
 

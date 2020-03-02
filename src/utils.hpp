@@ -21,10 +21,10 @@
 #include <cfloat>     // precision of double (DBL_MIN)
 #include <functional> // std::bind for using non-static member function as argument to free function
 
-using cx_dbl  = std::complex<double>;
-using cx_func = std::function<arma::cx_mat(arma::cx_vec theta)>;
 
-namespace target {
+namespace target {  
+  using cx_dbl  = std::complex<double>;
+  using cx_func = std::function<arma::cx_mat(arma::cx_vec theta)>;
   
   arma::mat deriv(cx_func f, arma::vec theta);
 
