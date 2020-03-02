@@ -67,7 +67,7 @@ public:
 
 
 PYBIND11_MODULE(__target_c__, m) {
-  m.doc() = "Python bindings for the GOF C++ library";
+  m.doc() = "Python bindings for the target C++ library";
 
   m.def("expit", &expit, "Sigmoid function (inverse logit)");
 

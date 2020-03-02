@@ -1,15 +1,15 @@
 # coding: utf-8
 
-__name__        = "gof"
+__name__        = "target"
 __version__     = "0.0.1"
 __license__     = "Apache Software License"
-__description__ = "Model Diagnostics via Cumulative Residuals"
+__description__ = "Targeted inference"
 __author__      = u"Klaus Kähler Holst"
 __email__       = "klaus.holst@maersk.com"
 __url__         = "https://research.maersk-digital.net"
-__copyright__   = u"Copyright 2020, Klaus Kähler Holst"
-__summary__     = "cumulative residuals"
-__keywords__    = "cumulative residuals, model diagnostics, generalized linear models"
+__copyright__   = u"Copyright 2019-2020, Klaus Kähler Holst"
+__summary__     = "Targeted inference"
+__keywords__    = "semi-parametric inference, double robust estimator, model diagnostics, cumulative residuals, generalized linear models"
 
 __all__ = [
     "__name__", "__summary__", "__description__",
