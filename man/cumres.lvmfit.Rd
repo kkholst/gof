@@ -4,9 +4,18 @@
 \alias{cumres.lvmfit}
 \title{Cumulative residual processes for structural equation models}
 \usage{
-\method{cumres}{lvmfit}(model, y, x, full = FALSE,
-  data = model.frame(model), p, R = 1000, b = 0, plots = min(R,
-  50), seed = round(runif(1, 1, 1e+09)), ...)
+\method{cumres}{lvmfit}(
+  model,
+  y,
+  x,
+  full = FALSE,
+  data = model.frame(model),
+  p,
+  R = 1000,
+  b = 0,
+  plots = min(R, 50),
+  ...
+)
 }
 \arguments{
 \item{model}{\code{lvm} object}
@@ -33,13 +42,11 @@ uncorrelated.}
 
 \item{plots}{Number of processes to save for use with the plot method}
 
-\item{seed}{Random seed}
-
 \item{\dots}{Additional arguments parsed on to lower-level functions}
 }
 \value{
 Returns a \code{cumres} object with associated
-\code{plot},\code{print},\code{confint} methods
+\code{plot},\code{print},\code{coef} methods
 }
 \description{
 Calculates GoF statistics based on cumulative residual processes for

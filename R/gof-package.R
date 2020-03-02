@@ -1,10 +1,10 @@
 ##' Model-diagnostics based on cumulative residuals
 ##' 
-##' @name gofobs-package
+##' @name gof-package
 ##' @import utils stats
-##' @aliases gofobs-package gofobs
+##' @aliases gof-package gof
 ##' @docType package
-##' @author Klaus K. Holst <kkho@@biostat.ku.dk>
+##' @author Klaus K. Holst <klaus@@holst.it>
 ##' @seealso \code{\link[timereg]{cox.aalen}} in the \code{timereg}-package for
 ##' similar GoF-methods for survival-data.
 ##' @references D.Y. Lin and L.J. Wei and Z. Ying (2002) \emph{Model-Checking
@@ -13,15 +13,18 @@
 ##' John Q. Su and L.J. Wei (1991) \emph{A lack-of-fit test for the mean function
 ##' in a generalized linear model}. Journal. Amer. Statist. Assoc., Volume 86,
 ##' Number 414, pp 420-426.
-##' @useDynLib gofobs
-##' @importFrom survival Surv coxph
+##' @useDynLib gof
 ##' @importFrom lava iid vars
+##' @importFrom Rcpp loadModule
 ##' @importFrom graphics lines polygon
 ##' @importFrom grDevices col2rgb rgb
+##' @importFrom methods new
+##' @importFrom mets fast.approx dby
 ##' @keywords package
 ##' @examples
 ##' example(cumres)
 ##'
+loadModule("gofmod", TRUE)
 NULL
 
 
@@ -38,6 +41,4 @@ NULL
 ##' @source Neter, J., Kutner, M. H., Nachtsheim, C. J., and Wasserman, W.
 ##' (1996), Applied Linear Statistical Models, 4th edition. Chicago: Irwin
 NULL
-
-
 

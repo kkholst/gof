@@ -26,18 +26,17 @@
 ##' @param title Main title
 ##' @param ... Additional arguments passed to the plot-routine.
 ##' @author Klaus K. Holst <kkho@@biostat.ku.dk>
-##' @seealso \code{\link[gof]{cumres}}
 ##' @keywords hplot regression
 ##' @examples
 ##' 
 ##' n <- 500; x <- abs(rnorm(n,sd=0.2))+0.01; y <- sqrt(x) + rnorm(n,sd=0.2)
 ##' l <- lm(y ~ x)
 ##' g <- cumres(l, R=500)
-##' plot(g, idx=1, ci="sim", col=NULL, col.ci="purple", legend="type2")
+##' plot(g, idx=1, legend="type2")
 ##' @method plot cumres
 ##' @export
 plot.cumres <- function(x, idx=1:length(x$variable),
-                        col=c("grey"),
+                        col="grey",
                         ci=TRUE,
                         col.ci="darkblue", col.alpha=0.3, lty.ci=0, level=0.95,
                         legend=c("type1","type2","none"), xlab, ylab,
@@ -128,7 +127,7 @@ plot.cumres <- function(x, idx=1:length(x$variable),
         graphics::title(x$response)
     }
     
-    if (!is.null(legend) && legend[1]!="none" && (legend!=F)) {
+    if (!is.null(legend) && legend[1]!="none" && (legend[1]!=F)) {
         if (legend[1]=="type1") {
             ltxt <- NULL
             if (!is.null(x$KS)) ltxt <- c(ltxt,paste0("KS-test: p=",format(x$KS[i],digits=3)))

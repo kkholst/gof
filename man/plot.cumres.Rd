@@ -4,10 +4,23 @@
 \alias{plot.cumres}
 \title{Plot cumulative residuals from a 'cumres' object}
 \usage{
-\method{plot}{cumres}(x, idx = 1:length(x$variable), col = c("grey"),
-  ci = TRUE, col.ci = "darkblue", col.alpha = 0.3, lty.ci = 0,
-  level = 0.95, legend = c("type1", "type2", "none"), xlab, ylab,
-  vs = TRUE, ylim = NULL, title, ...)
+\method{plot}{cumres}(
+  x,
+  idx = 1:length(x$variable),
+  col = "grey",
+  ci = TRUE,
+  col.ci = "darkblue",
+  col.alpha = 0.3,
+  lty.ci = 0,
+  level = 0.95,
+  legend = c("type1", "type2", "none"),
+  xlab,
+  ylab,
+  vs = TRUE,
+  ylim = NULL,
+  title,
+  ...
+)
 }
 \arguments{
 \item{x}{Object produced by the function \code{cumres}.}
@@ -55,10 +68,7 @@ realizations under the null. 95\% prediction bands
 n <- 500; x <- abs(rnorm(n,sd=0.2))+0.01; y <- sqrt(x) + rnorm(n,sd=0.2)
 l <- lm(y ~ x)
 g <- cumres(l, R=500)
-plot(g, idx=1, ci="sim", col=NULL, col.ci="purple", legend="type2")
-}
-\seealso{
-\code{\link[gof]{cumres}}
+plot(g, idx=1, legend="type2")
 }
 \author{
 Klaus K. Holst <kkho@biostat.ku.dk>
