@@ -125,9 +125,13 @@ Number 414, pp 420-426.</p>
 
     <div class='dont-index'><p><code>cox.aalen</code> in the <code>timereg</code>-package for
 similar GoF-methods for survival-data.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Klaus K. Holst &lt;klaus@holst.it&gt;</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/example.html'>example</a></span>(<span class='no'>cumres</span>)</div><div class='output co'>#&gt; 
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/example.html'>example</a></span>(<span class='kw'>cumres</span>)
+</div><div class='output co'>#&gt; 
 #&gt; cumres&gt; sim1 &lt;- function(n=100, f=function(x1,x2) {10+x1+x2^2}, sd=1, seed=1) {
 #&gt; cumres+   if (!is.null(seed))
 #&gt; cumres+     set.seed(seed)
@@ -143,7 +147,7 @@ similar GoF-methods for survival-data.</p></div>
 #&gt; 
 #&gt; cumres&gt; system.time(g &lt;- cumres(l, R=100, plots=50))
 #&gt;    user  system elapsed 
-#&gt;   0.014   0.000   0.014 
+#&gt;   0.018   0.000   0.018 
 #&gt; 
 #&gt; cumres&gt; g
 #&gt; 
@@ -190,7 +194,7 @@ similar GoF-methods for survival-data.</p></div>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

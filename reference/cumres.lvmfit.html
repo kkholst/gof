@@ -115,17 +115,17 @@ structural equation models fitted with the <code>lava</code> package.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for lvmfit</span>
-<span class='fu'>cumres</span>(
-  <span class='no'>model</span>,
-  <span class='no'>y</span>,
-  <span class='no'>x</span>,
-  <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/model.frame.html'>model.frame</a></span>(<span class='no'>model</span>),
-  <span class='no'>p</span>,
-  <span class='kw'>R</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>plots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='no'>R</span>, <span class='fl'>50</span>),
-  <span class='no'>...</span>
+<span class='fu'><a href='cumres.glm.html'>cumres</a></span>(
+  <span class='kw'>model</span>,
+  <span class='kw'>y</span>,
+  <span class='kw'>x</span>,
+  full = <span class='fl'>FALSE</span>,
+  data = <span class='fu'><a href='https://rdrr.io/r/stats/model.frame.html'>model.frame</a></span>(<span class='kw'>model</span>),
+  <span class='kw'>p</span>,
+  R = <span class='fl'>1000</span>,
+  b = <span class='fl'>0</span>,
+  plots = <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='kw'>R</span>, <span class='fl'>50</span>),
+  <span class='kw'>...</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -193,28 +193,35 @@ variables to use in the prediction of the outcome and predictor (use the
     <p>B.N. Sanchez and E. A. Houseman and L. M. Ryan (2009)
 <em>Residual-Based Diagnostics for Structural Equation Models</em>. Biometrics
 Volume 65 (1), pp 104-115.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Klaus K. Holst</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># \donttest{</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>lava</span>)
-<span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/lava/man/lvm.html'>lvm</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>y1</span>,<span class='no'>y2</span>,<span class='no'>y3</span>)~<span class='no'>eta</span>,<span class='no'>eta</span>~<span class='no'>x</span>)); <span class='fu'><a href='https://rdrr.io/pkg/lava/man/vars.html'>latent</a></span>(<span class='no'>m</span>) <span class='kw'>&lt;-</span> ~<span class='no'>eta</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/kkholst/lava'>lava</a></span>)
+<span class='kw'>m</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/lava/man/lvm.html'>lvm</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>y1</span>,<span class='kw'>y2</span>,<span class='kw'>y3</span>)<span class='op'>~</span><span class='kw'>eta</span>,<span class='kw'>eta</span><span class='op'>~</span><span class='kw'>x</span>)); <span class='fu'><a href='https://rdrr.io/pkg/lava/man/vars.html'>latent</a></span>(<span class='kw'>m</span>) <span class='op'>&lt;-</span> <span class='op'>~</span><span class='kw'>eta</span>
 <span class='co'>## simulate some data with non-linear covariate effect</span>
-<span class='fu'><a href='https://rdrr.io/pkg/lava/man/sim.html'>functional</a></span>(<span class='no'>m</span>,<span class='no'>eta</span>~<span class='no'>x</span>) <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fl'>0.3</span>*<span class='no'>x</span>^<span class='fl'>2</span>
-<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/lava/man/sim.html'>sim</a></span>(<span class='no'>m</span>,<span class='fl'>100</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/lava/man/sim.html'>functional</a></span>(<span class='kw'>m</span>,<span class='kw'>eta</span><span class='op'>~</span><span class='kw'>x</span>) <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>x</span>) <span class='fl'>0.3</span><span class='op'>*</span><span class='kw'>x</span><span class='op'>^</span><span class='fl'>2</span>
+<span class='kw'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/lava/man/sim.html'>sim</a></span>(<span class='kw'>m</span>,<span class='fl'>100</span>)
 
-<span class='no'>e</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/lava/man/estimate.default.html'>estimate</a></span>(<span class='no'>m</span>,<span class='no'>d</span>)
+<span class='kw'>e</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/lava/man/estimate.default.html'>estimate</a></span>(<span class='kw'>m</span>,<span class='kw'>d</span>)
 <span class='co'>## Checking the functional form of eta on x</span>
-<span class='no'>g</span> <span class='kw'>&lt;-</span> <span class='fu'>cumres</span>(<span class='no'>e</span>,<span class='no'>eta</span>~<span class='no'>x</span>,<span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required namespace: numDeriv</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>g</span>)</div><div class='img'><img src='cumres.lvmfit-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>p</span>) <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>e</span>,<span class='kw'>x</span><span class='kw'>=</span>~<span class='no'>y2</span>+<span class='no'>y3</span>,<span class='kw'>p</span><span class='kw'>=</span><span class='no'>p</span>)[,<span class='st'>"eta"</span>]
+<span class='kw'>g</span> <span class='op'>&lt;-</span> <span class='fu'><a href='cumres.glm.html'>cumres</a></span>(<span class='kw'>e</span>,<span class='kw'>eta</span><span class='op'>~</span><span class='kw'>x</span>,R=<span class='fl'>1000</span>)
+</div><div class='output co'>#&gt; <span class='message'>Loading required namespace: numDeriv</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>g</span>)
+</div><div class='img'><img src='cumres.lvmfit-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>p</span>) <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='kw'>e</span>,x=<span class='op'>~</span><span class='kw'>y2</span><span class='op'>+</span><span class='kw'>y3</span>,p=<span class='kw'>p</span>)[,<span class='st'>"eta"</span>]
 <span class='co'>## Checking the functional form of y1 on eta</span>
-<span class='fu'>cumres</span>(<span class='no'>e</span>,<span class='no'>y1</span>~<span class='no'>eta</span>,<span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>)</div><div class='output co'>#&gt; 
+<span class='fu'><a href='cumres.glm.html'>cumres</a></span>(<span class='kw'>e</span>,<span class='kw'>y1</span><span class='op'>~</span><span class='kw'>eta</span>,R=<span class='fl'>1000</span>)
+</div><div class='output co'>#&gt; 
 #&gt;     p-value(Sup) p-value(L2)
 #&gt; eta        0.289       0.141
 #&gt; 
-#&gt; Based on 1000 realizations.</div><div class='input'><span class='no'>g</span> <span class='kw'>&lt;-</span> <span class='fu'>cumres</span>(<span class='no'>e</span>,<span class='st'>"y1"</span>,<span class='kw'>x</span><span class='kw'>=</span><span class='no'>x</span>,<span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>g</span>)</div><div class='img'><img src='cumres.lvmfit-2.png' alt='' width='700' height='433' /></div><div class='input'>
-# }
+#&gt; Based on 1000 realizations.</div><div class='input'><span class='kw'>g</span> <span class='op'>&lt;-</span> <span class='fu'><a href='cumres.glm.html'>cumres</a></span>(<span class='kw'>e</span>,<span class='st'>"y1"</span>,x=<span class='kw'>x</span>,R=<span class='fl'>1000</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>g</span>)
+</div><div class='img'><img src='cumres.lvmfit-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -231,7 +238,7 @@ Volume 65 (1), pp 104-115.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>
