@@ -206,7 +206,7 @@ similar GoF-methods for survival-data.</p></div>
 <span class='kw'>d</span> <span class='op'>&lt;-</span> <span class='fu'>sim1</span>(<span class='fl'>100</span>); <span class='kw'>l</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>y</span> <span class='op'>~</span> <span class='kw'>x1</span> <span class='op'>+</span> <span class='kw'>x2</span>,<span class='kw'>d</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='kw'>g</span> <span class='op'>&lt;-</span> <span class='fu'>cumres</span>(<span class='kw'>l</span>, R=<span class='fl'>100</span>, plots=<span class='fl'>50</span>))
 </div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.023   0.000   0.023 </div><div class='input'><span class='kw'>g</span>
+#&gt;   0.023   0.001   0.023 </div><div class='input'><span class='kw'>g</span>
 </div><div class='output co'>#&gt; 
 #&gt;           p-value(Sup) p-value(L2)
 #&gt; predicted         0.26        0.37
